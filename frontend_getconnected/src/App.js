@@ -2,6 +2,7 @@ import './App.css';
 import Login from './components/LoginSignup/Login';
 import Signup from './components/LoginSignup/Signup';
 import Homepage from './components/Pages/Homepage';
+import Navbar from './components/Navbar/Navbar';
 import {  Route, Routes, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import { useEffect, useState, createContext } from 'react';
 
@@ -90,12 +91,14 @@ function App() {
   return (
 
     <AppContext.Provider value={{ }}>
-    {/* <Nav isLoggedIn={isLoggedIn} handleLogout={handleLogout}/> */}
-    <Routes >
-      <Route path="/" element={<Homepage />} />
-      <Route path="/login" element={<Login handleLogin={handleLogin} />} />
-      <Route path="/signup" element={<Signup handleSignUp={handleSignUp} />} />
-    </Routes>
+      <div className='bg-gray-100 w-full h-screen'>
+        <Navbar isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
+        <Routes >
+          <Route path="/" element={<Homepage />} />
+          <Route path="/login" element={<Login handleLogin={handleLogin} />} />
+          <Route path="/signup" element={<Signup handleSignUp={handleSignUp} />} />
+        </Routes>
+    </div>
   </AppContext.Provider>
 
   );
