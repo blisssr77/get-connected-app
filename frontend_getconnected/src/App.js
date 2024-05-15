@@ -4,6 +4,8 @@ import Signup from './components/LoginSignup/Signup';
 import Homepage from './components/Pages/Homepage';
 import Navbar from './components/Navbar/Navbar';
 import UserRoleForm from './components/Pages/UserRoleForm';
+import Students from './components/Pages/Students';
+import Freelancers from './components/Pages/Freelancers';
 import {  Route, Routes, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import { useEffect, useState, createContext } from 'react';
 
@@ -99,6 +101,8 @@ function App() {
           <Route path="/login" element={<Login handleLogin={handleLogin} />} />
           <Route path="/signup" element={<Signup handleSignUp={handleSignUp} />} />
           <Route path="/user-role-form" element={<UserRoleForm />} />
+          <Route path="Students" element={<Students/>} />
+          <Route path="Freelancers" element={<Freelancers/>} />
         </Routes>
     </div>
   </AppContext.Provider>

@@ -36,7 +36,7 @@ const UserRoleForm = () => {
                 await axios.post('/api/students', formData, {
                     headers: { 'Content-Type': 'multipart/form-data' }
                 });
-                navigate('/register/student');
+                navigate('/students');
             } catch (error) {
                 console.error(error);
             }
@@ -73,7 +73,7 @@ const UserRoleForm = () => {
                 await axios.post('/api/freelancers', formData, {
                     headers: { 'Content-Type': 'multipart/form-data' }
                 });
-                navigate('/register/freelancer');
+                navigate('/freelancers');
             } catch (error) {
                 console.error(error);
             }
@@ -95,7 +95,7 @@ const UserRoleForm = () => {
     });
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="pt-28 min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl w-full space-y-8">
                 <h2 className="text-center text-3xl font-extrabold text-gray-900">Register as</h2>
                 <div className="flex justify-between space-x-8">
@@ -135,10 +135,10 @@ const UserRoleForm = () => {
                             </div>
                             <div className="mt-4">
                                 {/* Image upload */}
-                                <div {...getStudentRootProps()} className="h-32 bg-gray-200 rounded-md flex items-center justify-center border-dashed border-2 border-gray-300 cursor-pointer">
+                                {/* <div {...getStudentRootProps()} className="h-32 bg-gray-200 rounded-md flex items-center justify-center border-dashed border-2 border-gray-300 cursor-pointer">
                                     <input {...getStudentInputProps()} />
                                     <span className="text-gray-500">{studentPhoto ? studentPhoto.name : 'Drop or click to upload photo'}</span>
-                                </div>
+                                </div> */}
                             </div>
                             <div>
                                 <button type="submit" disabled={studentFormik.isSubmitting} className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -193,10 +193,10 @@ const UserRoleForm = () => {
                             </div>
                             <div className="mt-4">
                                 {/* Image upload */}
-                                <div {...getFreelancerRootProps()} className="h-32 bg-gray-200 rounded-md flex items-center justify-center border-dashed border-2 border-gray-300 cursor-pointer">
+                                {/* <div {...getFreelancerRootProps()} className="h-32 bg-gray-200 rounded-md flex items-center justify-center border-dashed border-2 border-gray-300 cursor-pointer">
                                     <input {...getFreelancerInputProps()} />
                                     <span className="text-gray-500">{freelancerPhoto ? freelancerPhoto.name : 'Drop or click to upload photo'}</span>
-                                </div>
+                                </div> */}
                             </div>
                             <div>
                                 <button type="submit" disabled={freelancerFormik.isSubmitting} className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
