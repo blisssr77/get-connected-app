@@ -30,7 +30,11 @@ const Signup = (props) => {
             </div>
             <form onSubmit={handleSubmit}>
                 <div className="inputs">
-                    <div className="input">
+                <div className="input">
+                        <img src={user_icon} alt="" />
+                        <label htmlFor="fullname"/>
+                        <input type="text" name="fullname" placeholder="First & Last Name" onChange={handleChange}/>
+                    </div><div className="input">
                         <img src={user_icon} alt="" />
                         <label htmlFor="username"/>
                         <input type="text" name="username" placeholder="Username" onChange={handleChange}/>
