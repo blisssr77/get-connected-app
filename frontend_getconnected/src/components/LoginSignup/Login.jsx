@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useNavigate } from 'react-router-dom'
 import './LoginSignup.css'
 import user_icon from '../Assets/person.png'
 import password_icon from '../Assets/password.png'
@@ -6,6 +7,12 @@ import password_icon from '../Assets/password.png'
 const Login = (props) => {
     const [form, setForm] = useState(null)
     const [errorMsg, setErrorMsg] = useState('')
+    const navigate = useNavigate();
+
+const goToSignup = () => {
+    navigate('/signup');
+
+}
 
 const handleSubmit = async (e) => {
     e.preventDefault()
@@ -38,6 +45,8 @@ return (
         </div>
     </div>
         <div className="submit-container">
+            <button onClick={goToSignup} type="button" className="gray submit">Sign Up</button>
+
             <button type="submit" className="submit" value="Login">Sign In</button>
         </div>
         {errorMsg ? <div className="errorMsg">{errorMsg}</div> : ""}

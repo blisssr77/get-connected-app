@@ -3,6 +3,7 @@ import Login from './components/LoginSignup/Login';
 import Signup from './components/LoginSignup/Signup';
 import Homepage from './components/Pages/Homepage';
 import Navbar from './components/Navbar/Navbar';
+import UserRoleForm from './components/Pages/UserRoleForm';
 import {  Route, Routes, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import { useEffect, useState, createContext } from 'react';
 
@@ -48,7 +49,7 @@ function App() {
     };
   
     const handleLogout = () => {
-      console.log(" in handle log");
+      console.log(" in logout handle log");
       localStorage.removeItem("authToken");
       setIsLoggedIn(false);
       navigate("/");
@@ -97,6 +98,7 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/login" element={<Login handleLogin={handleLogin} />} />
           <Route path="/signup" element={<Signup handleSignUp={handleSignUp} />} />
+          <Route path="/user-role-form" element={<UserRoleForm />} />
         </Routes>
     </div>
   </AppContext.Provider>
