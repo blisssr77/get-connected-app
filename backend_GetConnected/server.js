@@ -12,9 +12,9 @@ app.use(express.urlencoded({extended:true}))
 
 app.use('/api', routes)
 
-app.get('/', (req,res)=>{
-    res.send("hello world")
-})
+// app.get('/', (req,res)=>{
+//     res.send("hello world")
+// })
 
 app.use((req,res)=>{
     res.status(404).json({message: "You are in the wrong routes .."})

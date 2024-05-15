@@ -1,5 +1,7 @@
 const router = require("express").Router()
 const userCtrl = require("./userController")
+const studentCtrl = require("./studentController")
+const freelancerCtrl = require("./freelancerController")
 const { verifyToken } = require("../middleware/verifyToken")
 
 // user routes
@@ -10,7 +12,6 @@ router.get("/user", userCtrl.getUser)
 
 // Placed under auth endpoints because we want to protect all other routes
 router.use(verifyToken)
-
 
 // Routes below
 
