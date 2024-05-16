@@ -2,6 +2,7 @@ const router = require("express").Router()
 const userCtrl = require("./userController")
 const studentCtrl = require("./studentCtrl")
 const freelancerCtrl = require("./freelancerCtrl")
+const upload = require("../middleware/upload")
 const { verifyToken } = require("../middleware/verifyToken")
 
 // user routes
@@ -22,8 +23,9 @@ router.delete('/freelancers/:id', freelancerCtrl.deleteFreelancer);
 // student routes
 router.get('/students', studentCtrl.getStudents);
 router.post('/students', studentCtrl.createStudent);
+router.post('/students', verifyToken, upload.single('photo'), studentCtrl.createStudent);
 router.put('/students/:id', studentCtrl.updateStudent);
 router.delete('/students/:id', studentCtrl.deleteStudent);
 
 
-module.exports = router
+module.exports = router;

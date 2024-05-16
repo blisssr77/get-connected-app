@@ -16,15 +16,23 @@ const getFreelancers = async (req, res) => {
 // Create a new Freelancer
 const createFreelancer = async (req, res) => {
     try {
-        // Check if the user already has a freelancer profile
-        const existingFreelancer = await db.Freelancer.findOne({ User: req.user.id });
-        if (existingFreelancer) {
-            return res.status(400).json({ message: "Freelancer profile already exists for this user" });
-        }
+        const { fullname, age, career, hobby, degree, location, description, experience } = req.body;
+        const photo = req.file ? req.file.path : null; // Get the photo file path if uploaded
 
-        const newFreelancer = await db.Freelancer.create({ ...req.body, User: req.user.id });
+        const newFreelancer = new db.Freelancer({
+            fullname,
+            age,
+            career,
+            hobby,
+            degree,
+            location,
+            description,
+            experience,
+            photo
+        });
+
         await newFreelancer.save();
-        res.status(201).json({ data: newFreelancer, message: "Freelancer created" });
+        res.status(201).json({ message: "Freelancer created successfully", data: newFreelancer });
     } catch (err) {
         res.status(400).json({ error: err.message });
     }

@@ -10,7 +10,7 @@ const UserRoleForm = (props) => {
         hobby: "",
         description: "",
         location: "",
-        photo: null,
+        photo: "",
     };
 
     const newFreelancerForm = {
@@ -22,7 +22,7 @@ const UserRoleForm = (props) => {
         location: "",
         description: "",
         experience: "",
-        photo: null,
+        photo: "",
     };
 
     const [newStudent, setNewStudent] = useState(newStudentForm);
@@ -46,6 +46,7 @@ const UserRoleForm = (props) => {
         props.createStudent(newStudent);
     };
 
+    // Below code handles the submission of the freelancer form
     const handleFreelancerSubmit = (i) => {
         i.preventDefault();
         console.log("Freelancer Form submitted");

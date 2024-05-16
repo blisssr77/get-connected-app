@@ -17,10 +17,21 @@ const getStudents = async (req, res) => {
 // Create a new Student
 const createStudent = async (req, res) => {
     try {
-        const newStudent = await db.Student.create({ ...req.body, User: req.user.id });
-        newStudent.save();
-        console.log(newStudent);
-        res.status(201).json({ data: newStudent, message: "Student created" });
+        const { fullname, age, career, hobby, description, location } = req.body;
+        const photo = req.file ? req.file.path : null; // Get the photo file path if uploaded
+
+        const newStudent = new db.Student({
+            fullname,
+            age,
+            career,
+            hobby,
+            description,
+            location,
+            photo
+        });
+
+        await newStudent.save();
+        res.status(201).json({ message: "Student created successfully", data: newStudent });
     } catch (err) {
         res.status(400).json({ error: err.message });
     }

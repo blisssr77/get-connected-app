@@ -5,7 +5,7 @@ const app = express()
 const cors = require('cors')
 const bodyParser = require('body-parser')
 
-const routes = require('./controllers')
+const routes = require('./controllers/routes')
 
 
 
