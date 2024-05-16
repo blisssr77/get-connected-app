@@ -1,7 +1,5 @@
 require('dotenv').config()
 
-const 
-
 const express = require('express')
 const app = express()
 const cors = require('cors')
@@ -9,11 +7,16 @@ const bodyParser = require('body-parser')
 
 const routes = require('./controllers')
 
+
+
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 app.use('/api', routes)
+
+// app.use('/api/freelancers', routes);
+// app.use('/api/students', routes);
 
 // app.get('/', (req,res)=>{
 //     res.send("hello world")

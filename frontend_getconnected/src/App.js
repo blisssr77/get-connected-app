@@ -14,7 +14,7 @@ export const AppContext = createContext(null);
 
 function App() {
 
-    // Handles login and signup
+    // Below code handles login and signup state--------------------------------------------------------------------
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("authToken"))
     const navigate = useNavigate()
     const URL = process.env.REACT_APP_URL
@@ -86,23 +86,72 @@ function App() {
       }
     }, []);
 
+    // Below is the code handles student state--------------------------------------------------------------------------
+    const [students, setStudents] = useState(null);
+    const getStudent = async () => {
+      try {
+        if (!isLoggedIn) {
+          console.log("User is not logged in. Cannot fetch students.");
+          return;
+        }
+        const response = await fetch(`${URL}students`, {
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+          }
+        });
+        const data = await response.json();
+        if (response.ok) {
+          setStudents(data.data);
+          console.log("Students fetched successfully.");
+        } else {
+          console.log("Failed to fetch students.");
+        }
+      } catch (error) {
+        console.error("Error fetching students:", error);
+      }
+    };
 
+    const createStudent = async (student) => {
+      if (!isLoggedIn) {
+          console.log("User is not logged in. Cannot create student.");
+          return;
+      }
+      await fetch(`${URL}students`, {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+          },
+          body: JSON.stringify(student),
+      }).then((response) => {
+          if (response.ok) {
+              console.log("Student created successfully.");
+              getStudent()
+              navigate(`/students`)
+              
+          } else {
+              console.log("Failed to create student.");
+          }
+      });
+  }
+
+  // Below is the code handles freelancer state--------------------------------------------------------------------------
 
 
 
 
   return (
 
-    <AppContext.Provider value={{ }}>
+    <AppContext.Provider value={{ students, isLoggedIn, handleLogin, handleSignUp, handleLogout, fetchUser }}>
       <div className='bg-gray-100 w-full h-screen'>
         <Navbar isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
         <Routes >
           <Route path="/" element={<Homepage />} />
           <Route path="/login" element={<Login handleLogin={handleLogin} />} />
           <Route path="/signup" element={<Signup handleSignUp={handleSignUp} />} />
-          <Route path="/user-role-form" element={<UserRoleForm />} />
-          <Route path="Students" element={<Students/>} />
-          <Route path="Freelancers" element={<Freelancers/>} />
+          <Route path="/user-role-form" element={<UserRoleForm createStudent={(student) => createStudent(student)}/>} />
+          <Route path="/students" element={<Students/>} />
+          <Route path="/freelancers" element={<Freelancers/>} />
         </Routes>
     </div>
   </AppContext.Provider>

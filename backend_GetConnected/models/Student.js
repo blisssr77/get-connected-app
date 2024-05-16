@@ -7,6 +7,7 @@ const studentSchema = new mongoose.Schema({
     hobby: { type: String, required: true },
     description: { type: String, required: true },
     location: { type: String, required: true },
+    photo: { type: String, required: false },
 });
 
 module.exports = mongoose.model('Student', studentSchema);

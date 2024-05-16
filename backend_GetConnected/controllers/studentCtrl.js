@@ -4,6 +4,7 @@ const db = require("../models");
 const getStudents = async (req, res) => {
     try {
         const students = await db.Student.find({ User: req.user.id });
+        console.log(students);
         if (!students) {
             return res.status(404).json({ message: "Cannot find Students" });
         }
@@ -17,7 +18,8 @@ const getStudents = async (req, res) => {
 const createStudent = async (req, res) => {
     try {
         const newStudent = await db.Student.create({ ...req.body, User: req.user.id });
-        await newStudent.save();
+        newStudent.save();
+        console.log(newStudent);
         res.status(201).json({ data: newStudent, message: "Student created" });
     } catch (err) {
         res.status(400).json({ error: err.message });

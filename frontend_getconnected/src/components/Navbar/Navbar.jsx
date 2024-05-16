@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const Navbar = ({ isLoggedIn, handleLogout }) => {
     let Links = [
         {name:"HOME", link:"/"},
-        {name:"LOGIN / SIGNUP", link:"/signup"},
+        {name:"LOGIN / SIGNUP", link:"/login"},
     ];
 
     if (isLoggedIn) {

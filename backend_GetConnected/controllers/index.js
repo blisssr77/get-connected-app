@@ -14,16 +14,16 @@ router.get("/user", userCtrl.getUser)
 router.use(verifyToken)
 
 // Freelancer Routes below
-router.get('/', freelancerCtrl.getFreelancers);
-router.post('/', freelancerCtrl.createFreelancer);
-router.put('/:id', freelancerCtrl.updateFreelancer);
-router.delete('/:id', freelancerCtrl.deleteFreelancer);
+router.get('/freelancers/', freelancerCtrl.getFreelancers);
+router.post('/freelancers', freelancerCtrl.createFreelancer);
+router.put('/freelancers/:id', freelancerCtrl.updateFreelancer);
+router.delete('/freelancers/:id', freelancerCtrl.deleteFreelancer);
 
 // student routes
-router.get('/', studentCtrl.getStudents);
-router.post('/', studentCtrl.createStudent);
-router.put('/:id', studentCtrl.updateStudent);
-router.delete('/:id', studentCtrl.deleteStudent);
+router.get('/students', studentCtrl.getStudents);
+router.post('/students', studentCtrl.createStudent);
+router.put('/students/:id', studentCtrl.updateStudent);
+router.delete('/students/:id', studentCtrl.deleteStudent);
 
 
 module.exports = router

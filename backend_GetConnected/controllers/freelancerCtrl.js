@@ -16,6 +16,12 @@ const getFreelancers = async (req, res) => {
 // Create a new Freelancer
 const createFreelancer = async (req, res) => {
     try {
+        // Check if the user already has a freelancer profile
+        const existingFreelancer = await db.Freelancer.findOne({ User: req.user.id });
+        if (existingFreelancer) {
+            return res.status(400).json({ message: "Freelancer profile already exists for this user" });
+        }
+
         const newFreelancer = await db.Freelancer.create({ ...req.body, User: req.user.id });
         await newFreelancer.save();
         res.status(201).json({ data: newFreelancer, message: "Freelancer created" });
