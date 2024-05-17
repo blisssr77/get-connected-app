@@ -33,6 +33,8 @@ function App() {
       }
       localStorage.setItem("authToken", data.token);
       setIsLoggedIn(true);
+      console.log("User logged in");
+      console.log(data);
   
       navigate(`/`);
     };

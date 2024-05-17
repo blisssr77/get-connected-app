@@ -7,7 +7,7 @@ const createToken = (user) => {
             id: user._id, 
             email: user.email, 
             username: user.username 
-        }, JWT_SECRET, { expiresIn: '1d' })
+        }, JWT_SECRET, { expiresIn: '1h' })
         return token
     } catch (err) {
         console.log(err)
