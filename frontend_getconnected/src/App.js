@@ -135,23 +135,158 @@ function App() {
               console.log("Failed to create student.");
           }
       });
-  }
+    }
+    const updateStudent = async (student, id) => {
+      if (!isLoggedIn) {
+          console.log("User is not logged in. Cannot update Student.");
+          return;
+      }
+      try {
+          const response = await fetch(`${URL}students/${id}`, {
+              method: "PUT",
+              headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+              },
+              body: JSON.stringify(student),
+          });
+    
+          if (response.ok) {
+              console.log("Student updated successfully.");
+              await getStudent(); 
+          } else {
+              throw new Error(`Failed to update student with status: ${response.status}`);
+          }
+      } catch (err) {
+          console.error("Error updating student:", err.message);
+      }
+    };
+    
+    const deleteStudent = async (id) => {
+        if (!isLoggedIn) {
+            console.log("User is not logged in. Cannot delete student.");
+            return;
+        }
+        await fetch(`${URL}students/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+            },
+        }).then((response) => {
+            if (response.ok) {
+                console.log("Student deleted successfully.");
+            } else {
+                console.log("Failed to delete student.");
+            }
+        });
+        getStudent();
+    }
+    // Below is the code handles freelancer state--------------------------------------------------------------------------
+    const [freelancers, setFreelancers] = useState(null);
+    const getFreelancer = async () => {
+      try {
+        if (!isLoggedIn) {
+          console.log("User is not logged in. Cannot fetch freelancers.");
+          return;
+        }
+        const response = await fetch(`${URL}freelancers`, {
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+          }
+        });
+        const data = await response.json();
+        if (response.ok) {
+          setFreelancers(data.data);
+          console.log("Freelancers fetched successfully.");
+        } else {
+          console.log("Failed to fetch freelancers.");
+        }
+      } catch (error) {
+        console.error("Error fetching freelancers:", error);
+      }
+    };
 
-  // Below is the code handles freelancer state--------------------------------------------------------------------------
-
+    const createFreelancer = async (freelancer) => {
+      if (!isLoggedIn) {
+          console.log("User is not logged in. Cannot create freelancer.");
+          return;
+      }
+      await fetch(`${URL}freelancers`, {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+          },
+          body: JSON.stringify(freelancer),
+      }).then((response) => {
+          if (response.ok) {
+              console.log("Freelancer created successfully.");
+              getFreelancer()
+              navigate(`/freelancers`)
+              
+          } else {
+              console.log("Failed to create freelancer.");
+          }
+      });
+    }
+    const updateFreelancer = async (freelancer, id) => {
+      if (!isLoggedIn) {
+          console.log("User is not logged in. Cannot update Freelancer.");
+          return;
+      }
+      try {
+          const response = await fetch(`${URL}freelancer/${id}`, {
+              method: "PUT",
+              headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+              },
+              body: JSON.stringify(freelancer),
+          });
+    
+          if (response.ok) {
+              console.log("Freelancer updated successfully.");
+              await getFreelancer(); 
+          } else {
+              throw new Error(`Failed to update freelancer with status: ${response.status}`);
+          }
+      } catch (err) {
+          console.error("Error updating freelancer:", err.message);
+      }
+    };
+    
+    const deleteFreelancer = async (id) => {
+        if (!isLoggedIn) {
+            console.log("User is not logged in. Cannot delete freelancer.");
+            return;
+        }
+        await fetch(`${URL}freelancers/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+            },
+        }).then((response) => {
+            if (response.ok) {
+                console.log("Freelancer deleted successfully.");
+            } else {
+                console.log("Failed to delete freelancer.");
+            }
+        });
+        getFreelancer();
+    }
 
 
 
   return (
 
-    <AppContext.Provider value={{ students, isLoggedIn, handleLogin, handleSignUp, handleLogout, fetchUser }}>
+    <AppContext.Provider value={{ students, freelancers, isLoggedIn, handleLogin, handleSignUp, handleLogout, fetchUser }}>
       <div className='bg-gray-100 w-full h-screen'>
         <Navbar isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
         <Routes >
           <Route path="/" element={<Homepage />} />
           <Route path="/login" element={<Login handleLogin={handleLogin} />} />
           <Route path="/signup" element={<Signup handleSignUp={handleSignUp} />} />
-          <Route path="/user-role-form" element={<UserRoleForm createStudent={(student) => createStudent(student)}/>} />
+          <Route path="/user-role-form" element={<UserRoleForm createStudent={(student) => createStudent(student)} createFreelancer={(freelancer) => createFreelancer(freelancer)}/>} />
           <Route path="/students" element={<Students/>} />
           <Route path="/freelancers" element={<Freelancers/>} />
         </Routes>
