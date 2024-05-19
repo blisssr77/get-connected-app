@@ -5,7 +5,7 @@ const getStudents = async (req, res) => {
     try {
         const students = await db.Student.find({ User: req.user.id });
         console.log(req.user.id, " <-- this is req.user.id")
-        console.log(students);
+        // console.log(students);
         if (!students) {
             return res.status(404).json({ message: "Cannot find Students" });
         }

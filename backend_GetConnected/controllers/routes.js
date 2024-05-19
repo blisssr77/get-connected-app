@@ -22,11 +22,11 @@ router.put('/students/:id', studentCtrl.updateStudent);
 router.delete('/students/:id', studentCtrl.deleteStudent);
 
 // Freelancer Routes below
-router.get('/freelancers/', freelancerCtrl.getFreelancers);
-router.post('/freelancers', freelancerCtrl.createFreelancer);
+router.get('/freelancers', freelancerCtrl.getFreelancers);
+router.post('/freelancers', upload, freelancerCtrl.createFreelancer);
 router.put('/freelancers/:id', freelancerCtrl.updateFreelancer);
 router.delete('/freelancers/:id', freelancerCtrl.deleteFreelancer);
-router.post('/freelancers', verifyToken, upload.single('photo'), freelancerCtrl.createFreelancer);
+// router.post('/freelancers', verifyToken, upload.single('photo'), freelancerCtrl.createFreelancer);
 
 
 

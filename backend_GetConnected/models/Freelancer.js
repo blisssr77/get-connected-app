@@ -11,7 +11,7 @@ const freelancerSchema = new mongoose.Schema({
     description: { type: String, required: true },
     experience: { type: String, required: true },
     photo: { type: String, required: false },
-    // User: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
+    User: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
     // User: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, unique: true},
 });
 

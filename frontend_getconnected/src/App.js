@@ -105,8 +105,7 @@ function App() {
       }
     };
 
-    const createStudent = async (student) => {
-      
+    const createStudent = async (student) => {      
       if (!isLoggedIn) {
           console.log("User is not logged in. Cannot create student.");
           return;
@@ -188,7 +187,9 @@ function App() {
             "Authorization": `Bearer ${localStorage.getItem("authToken")}`
           }
         });
+
         const data = await response.json();
+
         if (response.ok) {
           setFreelancers(data.data);
           console.log("Freelancers fetched successfully.");

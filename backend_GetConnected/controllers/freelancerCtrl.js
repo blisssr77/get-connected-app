@@ -4,6 +4,7 @@ const db = require("../models");
 const getFreelancers = async (req, res) => {
     try {
         const freelancers = await db.Freelancer.find({ User: req.user.id });
+        console.log(req.user.id, " <-- this is req.user.id")
         if (!freelancers) {
             return res.status(404).json({ message: "Cannot find Freelancers" });
         }
@@ -29,7 +30,7 @@ const createFreelancer = async (req, res) => {
             description,
             experience,
             photo,
-            user: userId
+            user: userId,
         });
 
         await newFreelancer.save();
