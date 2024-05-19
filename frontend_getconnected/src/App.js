@@ -90,7 +90,7 @@ function App() {
             "Authorization": `Bearer ${localStorage.getItem("authToken")}`
           }
         });
-        
+
         const data = await response.json();
 
         if (response.ok) {
@@ -106,6 +106,7 @@ function App() {
     };
 
     const createStudent = async (student) => {
+      
       if (!isLoggedIn) {
           console.log("User is not logged in. Cannot create student.");
           return;

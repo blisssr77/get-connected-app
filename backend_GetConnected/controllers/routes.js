@@ -14,6 +14,13 @@ router.get("/user", userCtrl.getUser)
 // Placed under auth endpoints because we want to protect all other routes
 router.use(verifyToken)
 
+// student routes
+router.get('/students', studentCtrl.getStudents);
+router.post('/students', upload, studentCtrl.createStudent);
+// router.post('/students', upload, studentCtrl.createStudent);
+router.put('/students/:id', studentCtrl.updateStudent);
+router.delete('/students/:id', studentCtrl.deleteStudent);
+
 // Freelancer Routes below
 router.get('/freelancers/', freelancerCtrl.getFreelancers);
 router.post('/freelancers', freelancerCtrl.createFreelancer);
@@ -22,12 +29,7 @@ router.delete('/freelancers/:id', freelancerCtrl.deleteFreelancer);
 router.post('/freelancers', verifyToken, upload.single('photo'), freelancerCtrl.createFreelancer);
 
 
-// student routes
-router.get('/students', studentCtrl.getStudents);
-router.post('/students', studentCtrl.createStudent);
-router.post('/students', verifyToken, upload.single('photo'), studentCtrl.createStudent);
-router.put('/students/:id', studentCtrl.updateStudent);
-router.delete('/students/:id', studentCtrl.deleteStudent);
+
 
 
 module.exports = router;
