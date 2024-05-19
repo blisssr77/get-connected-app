@@ -1,5 +1,5 @@
 const router = require("express").Router()
-const userCtrl = require("./userController")
+const userCtrl = require("./userCtrl")
 const studentCtrl = require("./studentCtrl")
 const freelancerCtrl = require("./freelancerCtrl")
 const upload = require("../middleware/upload")
@@ -19,6 +19,8 @@ router.get('/freelancers/', freelancerCtrl.getFreelancers);
 router.post('/freelancers', freelancerCtrl.createFreelancer);
 router.put('/freelancers/:id', freelancerCtrl.updateFreelancer);
 router.delete('/freelancers/:id', freelancerCtrl.deleteFreelancer);
+router.post('/freelancers', verifyToken, upload.single('photo'), freelancerCtrl.createFreelancer);
+
 
 // student routes
 router.get('/students', studentCtrl.getStudents);

@@ -4,7 +4,6 @@ import { AppContext } from '../../App';
 
 const Students = (props) => {
     const allStudents = useContext(AppContext);
-    // console.log(allStudents);
 
     const loaded = () => {
         return (

@@ -7,7 +7,7 @@ const createToken = (user) => {
             id: user._id, 
             email: user.email, 
             username: user.username 
-        }, JWT_SECRET, { expiresIn: '1h' })
+        }, JWT_SECRET, { expiresIn: '1d' })
         return token
     } catch (err) {
         console.log(err)
@@ -18,7 +18,7 @@ const verifyToken = (req, res, next) => {
     try {
         // identifying the type of token being used
         const bearerHeader = req.headers["authorization"].split(" ")[1];
-        console.log(bearerHeader, " <-- this is bearerheader")
+        // console.log(bearerHeader, " <-- this is bearerheader")
         if (!bearerHeader) {
             // forbidden response code status
             return res.status(403).json({ error: "You don't have permission to access this page" })

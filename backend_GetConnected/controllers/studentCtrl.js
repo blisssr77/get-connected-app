@@ -4,6 +4,7 @@ const db = require("../models");
 const getStudents = async (req, res) => {
     try {
         const students = await db.Student.find({ User: req.user.id });
+        console.log(req.user.id, " <-- this is req.user.id")
         console.log(students);
         if (!students) {
             return res.status(404).json({ message: "Cannot find Students" });
@@ -19,7 +20,7 @@ const createStudent = async (req, res) => {
     try {
         const { fullname, age, career, hobby, description, location } = req.body;
         const photo = req.file ? req.file.path : null; // Get the photo file path if uploaded
-
+        const userId = req.user.id;
         const newStudent = new db.Student({
             fullname,
             age,
@@ -27,7 +28,8 @@ const createStudent = async (req, res) => {
             hobby,
             description,
             location,
-            photo
+            photo,
+            User: userId,
         });
 
         await newStudent.save();

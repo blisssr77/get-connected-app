@@ -1,4 +1,5 @@
 const { default: mongoose } = require('mongoose');
+const User = require('./User');
 
 const studentSchema = new mongoose.Schema({
     fullname: { type: String, required: true },
@@ -8,6 +9,7 @@ const studentSchema = new mongoose.Schema({
     description: { type: String, required: true },
     location: { type: String, required: true },
     photo: { type: String, required: false },
+    User: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true,}
     // User: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, unique: true},
 
 });

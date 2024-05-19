@@ -18,7 +18,7 @@ const createFreelancer = async (req, res) => {
     try {
         const { fullname, age, career, hobby, degree, location, description, experience } = req.body;
         const photo = req.file ? req.file.path : null; // Get the photo file path if uploaded
-
+        const userId = req.user.id;
         const newFreelancer = new db.Freelancer({
             fullname,
             age,
@@ -28,7 +28,8 @@ const createFreelancer = async (req, res) => {
             location,
             description,
             experience,
-            photo
+            photo,
+            user: userId
         });
 
         await newFreelancer.save();

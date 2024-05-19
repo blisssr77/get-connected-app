@@ -11,6 +11,8 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
     if (isLoggedIn) {
         Links = [
             {name:"HOME", link:"/"},
+            {name:"Students", link:"/students"},
+            {name:"Freelancers", link:"/freelancers"},
             {name:"LOGOUT", link:"#", onClick: handleLogout},
         ];
     }

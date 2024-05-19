@@ -35,7 +35,6 @@ function App() {
       setIsLoggedIn(true);
       console.log("User logged in");
       console.log(data);
-  
       navigate(`/`);
     };
   
@@ -77,17 +76,7 @@ function App() {
         console.log("no token");
       }
     };
-  
-    useEffect(() => {
-      let token = localStorage.getItem("authToken");
-  
-      if (!token) {
-        setIsLoggedIn(false);
-      } else {
-        setIsLoggedIn(true);
-      }
-    }, []);
-
+    
     // Below is the code handles student state--------------------------------------------------------------------------
     const [students, setStudents] = useState(null);
     const getStudent = async () => {
@@ -101,10 +90,13 @@ function App() {
             "Authorization": `Bearer ${localStorage.getItem("authToken")}`
           }
         });
+        
         const data = await response.json();
+
         if (response.ok) {
           setStudents(data.data);
           console.log("Students fetched successfully.");
+          console.log(data.data)
         } else {
           console.log("Failed to fetch students.");
         }
@@ -136,6 +128,7 @@ function App() {
           }
       });
     }
+    
     const updateStudent = async (student, id) => {
       if (!isLoggedIn) {
           console.log("User is not logged in. Cannot update Student.");
@@ -198,6 +191,7 @@ function App() {
         if (response.ok) {
           setFreelancers(data.data);
           console.log("Freelancers fetched successfully.");
+          console.log(data.data)
         } else {
           console.log("Failed to fetch freelancers.");
         }
@@ -275,11 +269,22 @@ function App() {
         getFreelancer();
     }
 
+    useEffect(() => {
+      const token = localStorage.getItem("authToken");
+      if (token) {
+        setIsLoggedIn(true);
+        getStudent();
+        getFreelancer();
+      } else {
+        setIsLoggedIn(false);
+      }
+    }, []);
+    
 
 
   return (
 
-    <AppContext.Provider value={{ students, freelancers, isLoggedIn, handleLogin, handleSignUp, handleLogout, fetchUser }}>
+    <AppContext.Provider value={{ getStudent, students, freelancers, isLoggedIn, handleLogin, handleSignUp, handleLogout, fetchUser }}>
       <div className='bg-gray-100 w-full h-screen'>
         <Navbar isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
         <Routes >
@@ -287,8 +292,8 @@ function App() {
           <Route path="/login" element={<Login handleLogin={handleLogin} />} />
           <Route path="/signup" element={<Signup handleSignUp={handleSignUp} />} />
           <Route path="/user-role-form" element={<UserRoleForm createStudent={(student) => createStudent(student)} createFreelancer={(freelancer) => createFreelancer(freelancer)}/>} />
-          <Route path="/students" element={<Students/>} />
-          <Route path="/freelancers" element={<Freelancers/>} />
+          <Route path="/students" element={<Students />} />
+          <Route path="/freelancers" element={<Freelancers />} />
         </Routes>
     </div>
   </AppContext.Provider>
