@@ -40,7 +40,7 @@ const Students = (props) => {
                         </div>
                         <div className="mt-4">
                             <Link to={`/students/${student._id}`}>
-                                <button className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Leave Comment</button>
+                                <button className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Leave Comments</button>
                             </Link>
                         </div>
                     </div>

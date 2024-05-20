@@ -301,6 +301,7 @@ function App() {
           
           {/* Controls Student */}
           <Route path="/students" element={<Students />} />
+          <Route path="/students/:id" element={<StudentDetail />} />
 
           {/* Controls Freelancer */}
           <Route path="/freelancers" element={<Freelancers />} />
