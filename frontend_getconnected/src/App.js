@@ -6,6 +6,7 @@ import Navbar from './components/Navbar/Navbar';
 import UserRoleForm from './components/Pages/UserRoleForm';
 import Students from './components/Pages/Students';
 import Freelancers from './components/Pages/Freelancers';
+import StudentDetail from './components/Pages/StudentDetail';
 import {  Route, Routes, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import { useEffect, useState, createContext } from 'react';
 
@@ -291,10 +292,17 @@ function App() {
         <Navbar isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
         <Routes >
           <Route path="/" element={<Homepage />} />
+          {/* Controls Login / Signup */}
           <Route path="/login" element={<Login handleLogin={handleLogin} />} />
           <Route path="/signup" element={<Signup handleSignUp={handleSignUp} />} />
+
+          {/* Controls User-Role-Form page */}
           <Route path="/user-role-form" element={<UserRoleForm createStudent={(student) => createStudent(student)} createFreelancer={(freelancer) => createFreelancer(freelancer)}/>} />
+          
+          {/* Controls Student */}
           <Route path="/students" element={<Students />} />
+
+          {/* Controls Freelancer */}
           <Route path="/freelancers" element={<Freelancers />} />
         </Routes>
     </div>
