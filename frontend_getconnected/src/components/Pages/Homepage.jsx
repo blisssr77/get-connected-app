@@ -32,7 +32,7 @@ const Homepage = () => {
                   </p>
                   <div className="space-y-4 flex flex-col items-center md:items-start">
                       <button onClick={goToSignup} className="w-full md:w-auto px-6 py-3 bg-indigo-600 text-white font-semibold rounded-md shadow hover:bg-indigo-700">
-                          Sign Up
+                          Sign Up for Free
                       </button>
                   </div>
               </div>

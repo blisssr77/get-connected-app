@@ -288,7 +288,7 @@ function App() {
   return (
 
     <AppContext.Provider value={{ getStudent, students, freelancers, isLoggedIn, handleLogin, handleSignUp, handleLogout, fetchUser }}>
-      <div className='bg-gray-100 w-full h-screen'>
+      <div className='bg-gray-100 w-full h-screen' style={{background:'linear-gradient(#C6F6D5, #000000)'}}>
         <Navbar isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
         <Routes >
           <Route path="/" element={<Homepage />} />
