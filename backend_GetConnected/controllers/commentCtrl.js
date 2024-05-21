@@ -1,40 +1,33 @@
 const db = require('../models');
 
-// Get comments for a specific student
-const getComments = async (req, res) => {
-    try {
-        const comments = await db.Comment.find({ student: req.params.studentId }).populate('user', 'username');
-        res.status(200).json({ data: comments });
-    } catch (err) {
-        res.status(400).json({ error: err.message });
-    }
-};
-
-// Create a new comment
+// Create a new Comment
 const createComment = async (req, res) => {
     try {
+        const { content, studentId } = req.body;
         const userId = req.user.id;
 
         const newComment = new db.Comment({
             content,
+            student: studentId,
             user: userId,
         });
 
         await newComment.save();
-        res.status(201).json({ message: "Comment created successfully", data: newComment });
+        const populatedComment = await newComment.populate('user', 'fullname').execPopulate();
+
+        res.status(201).json({ message: "Comment created successfully", data: populatedComment });
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
 };
 
-// Update a comment
+// Update an existing Comment
 const updateComment = async (req, res) => {
     try {
-        const updatedComment = await db.Comment.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            { new: true }
-        );
+        const { content } = req.body;
+        const commentId = req.params.id;
+
+        const updatedComment = await db.Comment.findByIdAndUpdate(commentId, { content }, { new: true }).populate('user', 'fullname');
 
         if (!updatedComment) {
             return res.status(404).json({ message: "Comment not found" });
@@ -46,24 +39,40 @@ const updateComment = async (req, res) => {
     }
 };
 
-// Delete a comment
+// Delete a Comment
 const deleteComment = async (req, res) => {
     try {
-        const deletedComment = await db.Comment.findByIdAndDelete(req.params.id);
+        const commentId = req.params.id;
+
+        const deletedComment = await db.Comment.findByIdAndDelete(commentId);
 
         if (!deletedComment) {
             return res.status(404).json({ message: "Comment not found" });
         }
 
-        res.status(200).json({ message: "Comment deleted successfully", data: deletedComment });
+        res.status(200).json({ message: "Comment deleted successfully" });
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
 };
 
+// Get all Comments by a Student
+const getCommentsByStudent = async (req, res) => {
+    try {
+        const studentId = req.params.id;
+        const comments = await db.Comment.find({ student: studentId }).populate('user', 'fullname');
+
+        res.status(200).json({ data: comments });
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+};
+
+//
+
 module.exports = {
-    getComments,
     createComment,
     updateComment,
-    deleteComment
+    deleteComment,
+    getCommentsByStudent,
 };

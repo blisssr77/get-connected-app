@@ -3,6 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const cors = require('cors')
+const multer = require('multer')
 
 const routes = require('./controllers/routes')
 

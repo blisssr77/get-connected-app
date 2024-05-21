@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Button from '../Button/Button';
 import { useNavigate } from 'react-router-dom';
 
 const Navbar = ({ isLoggedIn, handleLogout }) => {
@@ -43,11 +42,12 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
     return (
         <div className='shadow-md w-full fixed top-0 left-0'>
             <div className='md:flex items-center justify-between bg-white py-4 md:px-10 px-7' ref={navRef}>
-                <div className='font-bold text-2xl cursor-pointer flex items-center font-[Poppins] text-gray-800'>
-                    <span className='text-3xl text-indigo-600 mr-1 pt-2'>
+                <div className='font-extrabold text-2xl cursor-pointer flex items-center font-[quicksand] text-gray-800'>
+                    GetConnected
+                    <span className='text-xl3 text-indigo-600 mr-1 pt-2'>
                         <ion-icon name="person-add"></ion-icon>
                     </span>
-                    Get Connected
+                    
                 </div>
                 
                 <div onClick={() => setOpen(!open)} className='text-3xl absolute right-8 top-6 cursor-pointer md:hidden'>
@@ -65,9 +65,9 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
                         </li>
                     ))}
                     
-                        <Button onClick={goToUserRoleForm}>
+                        <button onClick={goToUserRoleForm} className="w-full md:ml-8 px-6 py-3 text-sm bg-indigo-600 text-white font-semibold rounded-md shadow hover:bg-indigo-700">
                             Get Started
-                        </Button>
+                        </button>
                     
                 </ul>
             </div>

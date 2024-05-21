@@ -31,12 +31,12 @@ router.delete('/freelancers/:id', freelancerCtrl.deleteFreelancer);
 // router.post('/freelancers', verifyToken, upload.single('photo'), freelancerCtrl.createFreelancer);
 
 // Comment Routes below
-router.get('/students/:id/comments', commentCtrl.getComments);
-router.post('/students/:id/comments', commentCtrl.createComment);
+router.get('/students/:id/comments', commentCtrl.getCommentsByStudent);
+router.post('/comments/:id', commentCtrl.createComment);
 router.put('/comments/:id', commentCtrl.updateComment);
 router.delete('/comments/:id', commentCtrl.deleteComment);
 
-router.get('/freelancers/:id/comments', commentCtrl.getComments);
+// router.get('/freelancers/:id/comments', commentCtrl.getComments);
 router.post('/freelancers/:id/comments', commentCtrl.createComment);
 
 
