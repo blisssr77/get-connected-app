@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import homepageImage from '../Assets/homepage2.webp'; 
 import Button from '../Button/Button';
 import { useNavigate } from 'react-router-dom';
-
-
+import { AppContext } from '../../App';
 
 const Homepage = () => {
+    const { isLoggedIn } = useContext(AppContext); 
     const navigate = useNavigate();
     const goToSignup = () => {
-        navigate('/signup');
+        if (!isLoggedIn) {
+          navigate('/signup');
+        } else {
+          navigate('/hello-user')
+        }
     }
     return (
       <div className="min-h-screen flex flex-col bg-green-200">

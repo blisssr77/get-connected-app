@@ -7,6 +7,7 @@ import UserRoleForm from './components/Pages/UserRoleForm';
 import Students from './components/Pages/Students';
 import Freelancers from './components/Pages/Freelancers';
 import StudentDetail from './components/Pages/StudentDetail';
+import HelloUser from './components/LoginSignup/HelloUser';
 import {  Route, Routes, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import { useEffect, useState, createContext } from 'react';
 
@@ -292,6 +293,7 @@ function App() {
         <Navbar isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
         <Routes >
           <Route path="/" element={<Homepage />} />
+          <Route path="/hello-user" element={<HelloUser />} />
           {/* Controls Login / Signup */}
           <Route path="/login" element={<Login handleLogin={handleLogin} />} />
           <Route path="/signup" element={<Signup handleSignUp={handleSignUp} />} />
