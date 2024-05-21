@@ -13,13 +13,11 @@ const getComments = async (req, res) => {
 // Create a new comment
 const createComment = async (req, res) => {
     try {
-        const { content, studentId } = req.body;
         const userId = req.user.id;
 
         const newComment = new db.Comment({
             content,
             user: userId,
-            student: studentId
         });
 
         await newComment.save();

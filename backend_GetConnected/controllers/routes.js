@@ -2,6 +2,8 @@ const router = require("express").Router()
 const userCtrl = require("./userCtrl")
 const studentCtrl = require("./studentCtrl")
 const freelancerCtrl = require("./freelancerCtrl")
+const commentCtrl = require("./commentCtrl")
+
 const upload = require("../middleware/upload")
 const { verifyToken } = require("../middleware/verifyToken")
 
@@ -27,6 +29,16 @@ router.post('/freelancers', upload, freelancerCtrl.createFreelancer);
 router.put('/freelancers/:id', freelancerCtrl.updateFreelancer);
 router.delete('/freelancers/:id', freelancerCtrl.deleteFreelancer);
 // router.post('/freelancers', verifyToken, upload.single('photo'), freelancerCtrl.createFreelancer);
+
+// Comment Routes below
+router.get('/students/:id/comments', commentCtrl.getComments);
+router.post('/students/:id/comments', commentCtrl.createComment);
+router.put('/comments/:id', commentCtrl.updateComment);
+router.delete('/comments/:id', commentCtrl.deleteComment);
+
+router.get('/freelancers/:id/comments', commentCtrl.getComments);
+router.post('/freelancers/:id/comments', commentCtrl.createComment);
+
 
 
 

@@ -6,8 +6,8 @@ const Freelancer = require('./Freelancer');
 CommentSchema = new mongoose.Schema({
     content: { type: String, required: true },
     User: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    S
-    // Post: { type: mongoose.Schema.Types.ObjectId, ref: 'Post', required: true }
+    Student: { type: mongoose.Schema.Types.ObjectId, ref: 'Student' },
+    Freelancer: { type: mongoose.Schema.Types.ObjectId, ref: 'Freelancer' },
 });
 
 module.exports = mongoose.model('Comment', CommentSchema);
