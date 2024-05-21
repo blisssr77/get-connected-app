@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Button from '../Button/Button';
 
 const Navbar = ({ isLoggedIn, handleLogout }) => {
     let Links = [
@@ -9,26 +10,35 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
 
     if (isLoggedIn) {
         Links = [
-            {name:"HOME", link:"/"},
+            {name:"Home", link:"/"},
             {name:"Students", link:"/students"},
             {name:"Freelancers", link:"/freelancers"},
-            {name:"LOGOUT", link:"#", onClick: handleLogout},
         ];
     }
 
     const [open, setOpen] = useState(false);
+    const [profileOpen, setProfileOpen] = useState(false);
     const navigate = useNavigate();
-    const navRef = useRef(null);  
+    const navRef = useRef(null);
 
     const goToUserRoleForm = () => {
         console.log('trying to navigate to /user-role-form');
         navigate('/user-role-form');
     };
 
+    const goToHomepage = () => {
+        navigate('/');
+    };
+
+    const toggleProfileDropdown = () => {
+        setProfileOpen(!profileOpen);
+    };
+
     useEffect(() => {
         const handleOutsideClick = (event) => {
             if (navRef.current && !navRef.current.contains(event.target)) {
                 setOpen(false);
+                setProfileOpen(false);
             }
         };
 
@@ -37,17 +47,16 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
         return () => {
             document.removeEventListener('mousedown', handleOutsideClick);
         };
-    }, []);  
+    }, []);
 
     return (
         <div className='shadow-md w-full fixed top-0 left-0'>
             <div className='md:flex items-center justify-between bg-white py-4 md:px-10 px-7' ref={navRef}>
                 <div className='font-extrabold text-2xl cursor-pointer flex items-center font-[quicksand] text-gray-800'>
-                    GetConnected
+                    <span onClick={goToHomepage}>GetConnected</span>
                     <span className='text-xl3 text-indigo-600 mr-1 pt-2'>
                         <ion-icon name="person-add"></ion-icon>
                     </span>
-                    
                 </div>
                 
                 <div onClick={() => setOpen(!open)} className='text-3xl absolute right-8 top-6 cursor-pointer md:hidden'>
@@ -56,19 +65,29 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
 
                 <ul className={`md:flex md:items-center md:pb-0 pb-12 absolute md:static bg-white md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${open ? 'top-20 ' : 'top-[-490px]'}`}>
                     {Links.map((link) => (
-                        <li style={{fontSize:'14px'}} key={link.name} className='md:ml-8 text-xl md:my-0 my-7'>
-                            {link.name === "LOGOUT" ? (
-                                <a onClick={link.onClick} className='text-gray-800 hover:text-gray-400 duration-500 cursor-pointer'>{link.name}</a>
-                            ) : (
-                                <a href={link.link} className='text-gray-800 hover:text-gray-400 duration-500'>{link.name}</a>
-                            )}
+                        <li style={{fontSize:'15px'}} key={link.name} className='md:ml-8 text-xl md:my-0 my-7'>
+                            <a href={link.link} className='text-gray-800 hover:text-gray-400 duration-500'>{link.name}</a>
                         </li>
                     ))}
                     
-                        <button onClick={goToUserRoleForm} className="w-full md:ml-8 px-6 py-3 text-sm bg-indigo-600 text-white font-semibold rounded-md shadow hover:bg-indigo-700">
-                            Get Started
-                        </button>
-                    
+                    {isLoggedIn && (
+                        <li className='md:ml-8 relative'>
+                            <button onClick={toggleProfileDropdown} className=' text-gray-800 hover:text-gray-400 duration-500 cursor-pointer' style={{fontSize: '15px'}}>
+                                PROFILE
+                            </button>
+                            {profileOpen && (
+                                <ul className='absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg'>
+                                    <li onClick={handleLogout} className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer'>LOGOUT</li>
+                                    <li className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer'>Option 1</li>
+                                    <li className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer'>Option 2</li>
+                                </ul>
+                            )}
+                        </li>
+                    )}
+
+                    <Button onClick={goToUserRoleForm}>
+                        Get Started 
+                    </Button>
                 </ul>
             </div>
         </div>
