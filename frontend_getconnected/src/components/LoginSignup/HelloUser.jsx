@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import robot from '../Assets/robot.webp';
+import { AppContext } from '../../App';
 
 const HelloUser = () => {
     const navigate = useNavigate();
+    const { user } = useContext(AppContext);
 
     const goToHomepage = () => {
         navigate('/');
@@ -11,7 +13,7 @@ const HelloUser = () => {
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-100 p-8">
-            <h1 className="text-4xl font-extrabold text-gray-900 mb-8">Hello, User!</h1>
+            <h1 className="text-4xl font-extrabold text-gray-900 mb-8">Hello, {user?.fullname || 'User'}!</h1>
             <img src={robot} alt="Cute Dog" className="w-full max-w-lg rounded-lg shadow-lg mb-8" />
             <button
                 onClick={goToHomepage}

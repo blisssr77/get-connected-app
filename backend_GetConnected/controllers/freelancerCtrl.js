@@ -17,6 +17,9 @@ const getFreelancers = async (req, res) => {
 // Create a new Freelancer
 const createFreelancer = async (req, res) => {
     try {
+        console.log("Request body:", req.body);
+        console.log("Request file:", req.file);
+        console.log("Request user:", req.user);
         const { fullname, age, career, hobby, degree, location, description, experience } = req.body;
         const photo = req.file ? req.file.path : null; // Get the photo file path if uploaded
         const userId = req.user.id;
@@ -30,7 +33,7 @@ const createFreelancer = async (req, res) => {
             description,
             experience,
             photo,
-            user: userId,
+            User: userId,
         });
 
         await newFreelancer.save();

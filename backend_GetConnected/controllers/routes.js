@@ -19,7 +19,6 @@ router.use(verifyToken)
 // student routes
 router.get('/students', studentCtrl.getStudents);
 router.post('/students', upload, studentCtrl.createStudent);
-// router.post('/students', upload, studentCtrl.createStudent);
 router.put('/students/:id', studentCtrl.updateStudent);
 router.delete('/students/:id', studentCtrl.deleteStudent);
 

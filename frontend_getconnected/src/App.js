@@ -8,6 +8,7 @@ import Students from './components/Pages/Students';
 import Freelancers from './components/Pages/Freelancers';
 import StudentDetail from './components/Pages/StudentDetail';
 import HelloUser from './components/LoginSignup/HelloUser';
+import FreelancerForm from './components/Pages/FreelancerForm';
 import {  Route, Routes, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import { useEffect, useState, createContext } from 'react';
 
@@ -209,6 +210,7 @@ function App() {
           console.log("User is not logged in. Cannot create freelancer.");
           return;
       }
+      console.log("Creating freelancer with data:", freelancer);
       await fetch(`${URL}freelancers`, {
           method: "POST",
           headers: {
@@ -225,8 +227,12 @@ function App() {
           } else {
               console.log("Failed to create freelancer.");
           }
+      }).catch((error) => {
+          console.error("Error creating freelancer:", error);
       });
+
     }
+
     const updateFreelancer = async (freelancer, id) => {
       if (!isLoggedIn) {
           console.log("User is not logged in. Cannot update Freelancer.");
@@ -288,10 +294,13 @@ function App() {
 
   return (
 
-    <AppContext.Provider value={{ getStudent, students, freelancers, isLoggedIn, handleLogin, handleSignUp, handleLogout, fetchUser }}>
+    <AppContext.Provider value={{ getStudent, getFreelancer, students, freelancers, isLoggedIn, handleLogin, handleSignUp, handleLogout, fetchUser }}>
+      
       <div className='bg-gray-100 w-full h-screen' style={{background:'linear-gradient(#C6F6D5, #000000)'}}>
-        <Navbar isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
+        
+        <Navbar isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>        
         <Routes >
+
           <Route path="/" element={<Homepage />} />
           <Route path="/hello-user" element={<HelloUser />} />
           {/* Controls Login / Signup */}
@@ -307,6 +316,8 @@ function App() {
 
           {/* Controls Freelancer */}
           <Route path="/freelancers" element={<Freelancers />} />
+          <Route path='/freelancer-form' element={<FreelancerForm createFreelancer={(freelancer) => createFreelancer(freelancer)} />} />
+        
         </Routes>
     </div>
   </AppContext.Provider>
