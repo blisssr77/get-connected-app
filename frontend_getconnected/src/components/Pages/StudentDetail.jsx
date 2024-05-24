@@ -8,6 +8,7 @@ const URL = process.env.REACT_APP_URL;
 const StudentDetail = () => {
     const { id } = useParams();
     const { students, isLoggedIn } = useContext(AppContext);
+    console.log(students)
     const [student, setStudent] = useState(null);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");

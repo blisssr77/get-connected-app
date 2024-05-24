@@ -3,12 +3,14 @@ import Login from './components/LoginSignup/Login';
 import Signup from './components/LoginSignup/Signup';
 import Homepage from './components/Pages/Homepage';
 import Navbar from './components/Navbar/Navbar';
-import UserRoleForm from './components/Pages/UserRoleForm';
+import StudentForm from './components/Pages/StudentForm';
 import Students from './components/Pages/Students';
 import Freelancers from './components/Pages/Freelancers';
 import StudentDetail from './components/Pages/StudentDetail';
 import HelloUser from './components/LoginSignup/HelloUser';
 import FreelancerForm from './components/Pages/FreelancerForm';
+import RoleSelection from './components/Pages/RoleSelection';
+import RoleProfile from './components/Pages/RoleProfile';
 import {  Route, Routes, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import { useEffect, useState, createContext } from 'react';
 
@@ -84,27 +86,45 @@ function App() {
     const [students, setStudents] = useState(null);
     const getStudent = async () => {
       try {
-        if (!isLoggedIn) {
-          console.log("User is not logged in. Cannot fetch students.");
-          return;
-        }
-        const response = await fetch(`${URL}students`, {
-          headers: {
-            "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+          if (!isLoggedIn) {
+              console.log("User is not logged in. Cannot fetch students.");
+              return;
           }
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-          setStudents(data.data);
-          console.log("Students fetched successfully.");
-          console.log(data.data)
-        } else {
-          console.log("Failed to fetch students.");
-        }
+  
+          // Fetch students
+          const response = await fetch(`${URL}students`, {
+              headers: {
+                  "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+              }
+          });
+  
+          const data = await response.json();
+  
+          if (response.ok) {
+              setStudents(data.data);
+              console.log("Students fetched successfully.");
+              console.log(data.data);
+          } else {
+              console.log("Failed to fetch students.");
+          }
+  
+          // Fetch role profiles
+          const roleProfileResponse = await fetch(`${URL}role-profile`, {
+              headers: {
+                  "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+              }
+          });
+  
+          const roleProfileData = await roleProfileResponse.json();
+  
+          if (roleProfileResponse.ok) {
+              console.log("Role profiles fetched successfully.");
+              console.log(roleProfileData.data);
+          } else {
+              console.log("Failed to fetch role profiles.");
+          }
       } catch (error) {
-        console.error("Error fetching students:", error);
+          console.error("Error fetching students or role profiles:", error);
       }
     };
 
@@ -113,24 +133,45 @@ function App() {
           console.log("User is not logged in. Cannot create student.");
           return;
       }
-      await fetch(`${URL}students`, {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${localStorage.getItem("authToken")}`
-          },
-          body: JSON.stringify(student),
-      }).then((response) => {
+  
+      try {
+          const response = await fetch(`${URL}students`, {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+              },
+              body: JSON.stringify(student),
+          });
+  
           if (response.ok) {
               console.log("Student created successfully.");
-              getStudent()
-              navigate(`/students`)
-              
+              getStudent();
+  
+              // Additional POST to /role-profile
+              const roleProfileResponse = await fetch(`${URL}role-profile`, {
+                  method: "POST",
+                  headers: {
+                      "Content-Type": "application/json",
+                      "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+                  },
+                  body: JSON.stringify(student),
+              });
+  
+              if (roleProfileResponse.ok) {
+                  console.log("Posted to role-profile successfully.");
+                  getStudent();
+                  navigate(`/students`);
+              } else {
+                  console.log("Failed to post to role-profile.");
+              }
           } else {
               console.log("Failed to create student.");
           }
-      });
-    }
+      } catch (error) {
+          console.error("Error creating student:", error);
+      }
+    };
     
     const updateStudent = async (student, id) => {
       if (!isLoggedIn) {
@@ -210,28 +251,28 @@ function App() {
           console.log("User is not logged in. Cannot create freelancer.");
           return;
       }
-      console.log("Creating freelancer with data:", freelancer);
-      await fetch(`${URL}freelancers`, {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${localStorage.getItem("authToken")}`
-          },
-          body: JSON.stringify(freelancer),
-      }).then((response) => {
+  
+      try {
+          const response = await fetch(`${URL}freelancers`, {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+              },
+              body: JSON.stringify(freelancer),
+          });
+  
           if (response.ok) {
               console.log("Freelancer created successfully.");
-              getFreelancer()
-              navigate(`/freelancers`)
-              
+              getFreelancer();
+              navigate(`/freelancers`);
           } else {
               console.log("Failed to create freelancer.");
           }
-      }).catch((error) => {
+      } catch (error) {
           console.error("Error creating freelancer:", error);
-      });
-
-    }
+      }
+    };
 
     const updateFreelancer = async (freelancer, id) => {
       if (!isLoggedIn) {
@@ -295,22 +336,21 @@ function App() {
   return (
 
     <AppContext.Provider value={{ getStudent, getFreelancer, students, freelancers, isLoggedIn, handleLogin, handleSignUp, handleLogout, fetchUser }}>
-      
       <div className='bg-gray-100 w-full h-screen' style={{background:'linear-gradient(#C6F6D5, #000000)'}}>
-        
-        <Navbar isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>        
+        <Navbar isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
         <Routes >
 
           <Route path="/" element={<Homepage />} />
           <Route path="/hello-user" element={<HelloUser />} />
+          <Route path='/role-selection' element={<RoleSelection/>} />
+          <Route path='/role-profile' element={<RoleProfile/>} />
+
           {/* Controls Login / Signup */}
           <Route path="/login" element={<Login handleLogin={handleLogin} />} />
           <Route path="/signup" element={<Signup handleSignUp={handleSignUp} />} />
 
-          {/* Controls User-Role-Form page */}
-          <Route path="/user-role-form" element={<UserRoleForm createStudent={(student) => createStudent(student)} createFreelancer={(freelancer) => createFreelancer(freelancer)}/>} />
-          
           {/* Controls Student */}
+          <Route path='/student-form' element={<StudentForm createStudent={(student) => createStudent(student)} />} />
           <Route path="/students" element={<Students />} />
           <Route path="/students/:id" element={<StudentDetail />} />
 

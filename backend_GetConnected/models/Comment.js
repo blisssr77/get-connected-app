@@ -5,7 +5,7 @@ const Freelancer = require('./Freelancer');
 
 CommentSchema = new mongoose.Schema({
     content: { type: String, required: true },
-    User: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    User: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     Student: { type: mongoose.Schema.Types.ObjectId, ref: 'Student' },
     Freelancer: { type: mongoose.Schema.Types.ObjectId, ref: 'Freelancer' },
 });

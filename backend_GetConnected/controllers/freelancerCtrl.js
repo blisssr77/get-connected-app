@@ -4,7 +4,7 @@ const db = require("../models");
 const getFreelancers = async (req, res) => {
     try {
         const freelancers = await db.Freelancer.find({ User: req.user.id });
-        console.log(req.user.id, " <-- this is req.user.id")
+        console.log(req.user.id, " <-- this is req.user.id FROM FREELANCER")
         if (!freelancers) {
             return res.status(404).json({ message: "Cannot find Freelancers" });
         }
@@ -20,9 +20,15 @@ const createFreelancer = async (req, res) => {
         console.log("Request body:", req.body);
         console.log("Request file:", req.file);
         console.log("Request user:", req.user);
+        
         const { fullname, age, career, hobby, degree, location, description, experience } = req.body;
         const photo = req.file ? req.file.path : null; // Get the photo file path if uploaded
-        const userId = req.user.id;
+        const userId = req.user.id
+
+        if (!userId) {
+            return res.status(400).json({ error: "User ID is required" });
+        }
+
         const newFreelancer = new db.Freelancer({
             fullname,
             age,

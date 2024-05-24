@@ -38,6 +38,10 @@ router.delete('/comments/:id', commentCtrl.deleteComment);
 // router.get('/freelancers/:id/comments', commentCtrl.getComments);
 router.post('/freelancers/:id/comments', commentCtrl.createComment);
 
+// Role Profile Routes below
+router.get('/role-profile', studentCtrl.getStudents)
+router.post('/role-profile', studentCtrl.createStudent)
+
 
 
 
