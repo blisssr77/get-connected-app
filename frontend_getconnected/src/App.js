@@ -11,6 +11,7 @@ import HelloUser from './components/LoginSignup/HelloUser';
 import FreelancerForm from './components/Pages/FreelancerForm';
 import RoleSelection from './components/Pages/RoleSelection';
 import RoleProfile from './components/Pages/RoleProfilePages/RoleProfile';
+import RoleProfileDetail from './components/Pages/RoleProfilePages/RoleProfileDetail';
 import {  Route, Routes, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import { useEffect, useState, createContext } from 'react';
 
@@ -370,15 +371,18 @@ function App() {
 
   return (
 
-    <AppContext.Provider value={{ getStudent, getFreelancer, students, freelancers, isLoggedIn, handleLogin, handleSignUp, handleLogout, fetchUser }}>
+    <AppContext.Provider value={{ getStudent, getFreelancer, updateStudent, updateFreelancer, students, freelancers, isLoggedIn, handleLogin, handleSignUp, handleLogout, fetchUser }}>
       <div className='bg-gray-100 w-full h-screen' style={{background:'linear-gradient(#C6F6D5, #000000)'}}>
         <Navbar isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
         <Routes >
 
           <Route path="/" element={<Homepage />} />
           <Route path="/hello-user" element={<HelloUser />} />
+
+          {/* Controls Role Profile */}
           <Route path='/role-selection' element={<RoleSelection/>} />
           <Route path='/role-profile' element={<RoleProfile/>} />
+          <Route path='role-profile/:id' element={<RoleProfileDetail updateStudent={(student)=>updateStudent(student)} updateFreelancer={(freelancer)=>updateFreelancer(freelancer)}/>} />
 
           {/* Controls Login / Signup */}
           <Route path="/login" element={<Login handleLogin={handleLogin} />} />

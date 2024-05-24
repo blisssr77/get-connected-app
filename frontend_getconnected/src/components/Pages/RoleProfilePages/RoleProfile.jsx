@@ -39,7 +39,7 @@ const RoleProfile = () => {
                             <p className="text-gray-700"><strong>Description:</strong> {student.description}</p>
                         </div>
                         <div className="mt-4">
-                            <Link to={`/students/${student._id}`}>
+                            <Link to={`/role-profile/${student._id}`}>
                                 <button className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Update Student Profile</button>
                             </Link>
                         </div>
@@ -74,7 +74,7 @@ const RoleProfile = () => {
                             <p className="text-gray-700"><strong>Description:</strong> {freelancer.description}</p>
                         </div>
                         <div className="mt-4">
-                            <Link to={`/freelancers/${freelancer._id}`}>
+                            <Link to={`/role-profile/${freelancer._id}`}>
                                 <button className=" text-white px-4 py-2 rounded-md hover:bg-indigo-700" style={{backgroundColor:"#3498eb"}}>Update Freelancer Profile</button>
                             </Link>
                         </div>
