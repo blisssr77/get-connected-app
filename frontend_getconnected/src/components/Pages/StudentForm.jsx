@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
+import { Link } from 'react-router-dom';
 
 const StudentForm = (props) => {
     const newStudentForm = {
@@ -31,6 +32,9 @@ const StudentForm = (props) => {
     const handleCancel = () => {
         navigate('/');
     };
+    const goToStudent = () => {
+        navigate('/students')
+    }
 
     const onDropStudent = (acceptedFiles) => {
         const file = acceptedFiles[0];

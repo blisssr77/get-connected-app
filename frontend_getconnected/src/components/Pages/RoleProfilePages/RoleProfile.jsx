@@ -42,6 +42,7 @@ const RoleProfile = () => {
                             <Link to={`/role-profile/${student._id}`}>
                                 <button className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Update Student Profile</button>
                             </Link>
+                            
                         </div>
                     </div>
                 ))}
@@ -77,6 +78,7 @@ const RoleProfile = () => {
                             <Link to={`/role-profile/${freelancer._id}`}>
                                 <button className=" text-white px-4 py-2 rounded-md hover:bg-indigo-700" style={{backgroundColor:"#3498eb"}}>Update Freelancer Profile</button>
                             </Link>
+                            
                         </div>
                     </div>
                 ))}

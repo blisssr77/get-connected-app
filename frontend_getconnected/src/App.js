@@ -134,45 +134,24 @@ function App() {
           console.log("User is not logged in. Cannot create student.");
           return;
       }
-  
-      try {
-          const response = await fetch(`${URL}students`, {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json",
-                  "Authorization": `Bearer ${localStorage.getItem("authToken")}`
-              },
-              body: JSON.stringify(student),
-          });
-  
+      await fetch(`${URL}students`, {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+          },
+          body: JSON.stringify(student),
+      }).then((response) => {
           if (response.ok) {
               console.log("Student created successfully.");
-              getStudent();
-  
-              // Additional POST to /role-profile
-              const roleProfileResponse = await fetch(`${URL}role-profile`, {
-                  method: "POST",
-                  headers: {
-                      "Content-Type": "application/json",
-                      "Authorization": `Bearer ${localStorage.getItem("authToken")}`
-                  },
-                  body: JSON.stringify(student),
-              });
-  
-              if (roleProfileResponse.ok) {
-                  console.log("Posted to role-profile successfully.");
-                  getStudent();
-                  navigate(`/students`);
-              } else {
-                  console.log("Failed to post to role-profile.");
-              }
+              getStudent()
+              navigate(`/students`)
+              
           } else {
               console.log("Failed to create student.");
           }
-      } catch (error) {
-          console.error("Error creating student:", error);
-      }
-    };
+      });
+    }
     
     const updateStudent = async (student, id) => {
       if (!isLoggedIn) {
@@ -219,6 +198,7 @@ function App() {
         });
         getStudent();
     }
+    
     // Below is the code handles freelancer state--------------------------------------------------------------------------
     const [freelancers, setFreelancers] = useState(null);
     const getFreelancer = async () => {
@@ -265,50 +245,29 @@ function App() {
       }
     };
 
-  const createFreelancer = async (freelancer) => {
+    const createFreelancer = async (freelancer) => {
       if (!isLoggedIn) {
           console.log("User is not logged in. Cannot create freelancer.");
           return;
       }
-
-      try {
-          const response = await fetch(`${URL}freelancers`, {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json",
-                  "Authorization": `Bearer ${localStorage.getItem("authToken")}`
-              },
-              body: JSON.stringify(freelancer),
-          });
-
+      await fetch(`${URL}freelancers`, {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+          },
+          body: JSON.stringify(freelancer),
+      }).then((response) => {
           if (response.ok) {
               console.log("Freelancer created successfully.");
-              getFreelancer();
-
-              // Additional POST to /role-profile
-              const roleProfileResponse = await fetch(`${URL}role-profile`, {
-                  method: "POST",
-                  headers: {
-                      "Content-Type": "application/json",
-                      "Authorization": `Bearer ${localStorage.getItem("authToken")}`
-                  },
-                  body: JSON.stringify(freelancer),
-              });
-
-              if (roleProfileResponse.ok) {
-                  console.log("Posted to role-profile successfully.");
-                  getFreelancer();
-                  navigate(`/freelancers`);
-              } else {
-                  console.log("Failed to post to role-profile.");
-              }
+              getFreelancer()
+              navigate(`/freelancers`)
+              
           } else {
               console.log("Failed to create freelancer.");
           }
-      } catch (error) {
-          console.error("Error creating freelancer:", error);
-      }
-  };
+      });
+    }
 
     const updateFreelancer = async (freelancer, id) => {
       if (!isLoggedIn) {
@@ -356,6 +315,8 @@ function App() {
         getFreelancer();
     }
 
+    const deleteAll = deleteStudent || deleteFreelancer
+
     useEffect(() => {
       const token = localStorage.getItem("authToken");
       if (token) {
@@ -371,7 +332,11 @@ function App() {
 
   return (
 
-    <AppContext.Provider value={{ getStudent, getFreelancer, updateStudent, updateFreelancer, students, freelancers, isLoggedIn, handleLogin, handleSignUp, handleLogout, fetchUser }}>
+    <AppContext.Provider value={{ 
+      getStudent, getFreelancer, updateStudent, updateFreelancer, deleteStudent, deleteFreelancer, 
+      students, freelancers, isLoggedIn, handleLogin, handleSignUp, handleLogout, fetchUser 
+      }}>
+      
       <div className='bg-gray-100 w-full h-screen' style={{background:'linear-gradient(#C6F6D5, #000000)'}}>
         <Navbar isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
         <Routes >
@@ -381,7 +346,7 @@ function App() {
 
           {/* Controls Role Profile */}
           <Route path='/role-selection' element={<RoleSelection/>} />
-          <Route path='/role-profile' element={<RoleProfile/>} />
+          <Route path='/role-profile' element={<RoleProfile deleteStudent={(student)=>deleteStudent(student)} deleteFreelancer={(freelancer)=>deleteFreelancer(freelancer)}/>} />
           <Route path='role-profile/:id' element={<RoleProfileDetail updateStudent={(student)=>updateStudent(student)} updateFreelancer={(freelancer)=>updateFreelancer(freelancer)}/>} />
 
           {/* Controls Login / Signup */}

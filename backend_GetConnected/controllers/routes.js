@@ -41,6 +41,9 @@ router.post('/freelancers/:id/comments', commentCtrl.createComment);
 // Role Profile Routes below
 router.get('/role-profile', studentCtrl.getStudents)
 router.post('/role-profile', studentCtrl.createStudent)
+router.put('/role-profile/:id', studentCtrl.deleteStudent)
+router.put('/role-profile/:id', freelancerCtrl.deleteFreelancer)
+
 
 
 

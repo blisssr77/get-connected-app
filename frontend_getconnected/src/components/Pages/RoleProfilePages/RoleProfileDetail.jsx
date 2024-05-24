@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { AppContext } from '../../../App';
 
 const RoleProfileDetail = () => {
-  const { students, freelancers, updateStudent, updateFreelancer } = useContext(AppContext);
+  const { students, freelancers, updateStudent, updateFreelancer, deleteStudent, deleteFreelancer } = useContext(AppContext);
   const params = useParams();
   const id = params.id;
   const navigate = useNavigate();
@@ -11,6 +11,14 @@ const RoleProfileDetail = () => {
   const student = students.find((s) => s._id === id);
   const freelancer = freelancers.find((f) => f._id === id);
   const profile = student || freelancer;
+
+  const handleDelete = (id, type) => {
+    if (type === 'student') {
+        deleteStudent(id).then(()=>navigate('/role-profile'));
+    } else if (type === 'freelancer') {
+        deleteFreelancer(id).then(()=>navigate('/role-profile'));;
+    }
+    };  
 
   const [form, setForm] = useState({
     fullname: '',
@@ -166,6 +174,12 @@ const RoleProfileDetail = () => {
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Submit
+            </button>
+            <br></br>
+            <button 
+                onClick={() => handleDelete(profile._id, student ? 'student' : 'freelancer')} 
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                Delete
             </button>
           </div>
         </form>
