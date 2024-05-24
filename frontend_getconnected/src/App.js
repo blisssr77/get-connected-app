@@ -10,7 +10,7 @@ import StudentDetail from './components/Pages/StudentDetail';
 import HelloUser from './components/LoginSignup/HelloUser';
 import FreelancerForm from './components/Pages/FreelancerForm';
 import RoleSelection from './components/Pages/RoleSelection';
-import RoleProfile from './components/Pages/RoleProfile';
+import RoleProfile from './components/Pages/RoleProfilePages/RoleProfile';
 import {  Route, Routes, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import { useEffect, useState, createContext } from 'react';
 

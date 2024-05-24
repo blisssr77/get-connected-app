@@ -36,6 +36,7 @@ const Freelancers = (props) => {
                             <p className="text-gray-700"><strong>Age:</strong> {freelancer.age}</p>
                             <p className="text-gray-700"><strong>Career:</strong> {freelancer.career}</p>
                             <p className="text-gray-700"><strong>Hobby:</strong> {freelancer.hobby}</p>
+                            <p className='text-gray-700'><strong>Degree:</strong> {freelancer.degree}</p>
                             <p className="text-gray-700"><strong>Experience:</strong> {freelancer.experience}</p>
                             <p className="text-gray-700"><strong>Description:</strong> {freelancer.description}</p>
                         </div>

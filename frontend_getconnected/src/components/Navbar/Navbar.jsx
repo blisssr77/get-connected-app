@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../Button/Button';
-import RoleProfile from '../Pages/RoleProfile';
+import RoleProfile from '../Pages/RoleProfilePages/RoleProfile';
 
 const Navbar = ({ isLoggedIn, handleLogout }) => {
     let Links = [
