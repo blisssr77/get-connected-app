@@ -222,36 +222,54 @@ function App() {
     const [freelancers, setFreelancers] = useState(null);
     const getFreelancer = async () => {
       try {
-        if (!isLoggedIn) {
-          console.log("User is not logged in. Cannot fetch freelancers.");
-          return;
-        }
-        const response = await fetch(`${URL}freelancers`, {
-          headers: {
-            "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+          if (!isLoggedIn) {
+              console.log("User is not logged in. Cannot fetch freelancers.");
+              return;
           }
-        });
 
-        const data = await response.json();
+          // Fetch freelancers
+          const response = await fetch(`${URL}freelancers`, {
+              headers: {
+                  "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+              }
+          });
 
-        if (response.ok) {
-          setFreelancers(data.data);
-          console.log("Freelancers fetched successfully.");
-          console.log(data.data)
-        } else {
-          console.log("Failed to fetch freelancers.");
-        }
+          const data = await response.json();
+
+          if (response.ok) {
+              setFreelancers(data.data);
+              console.log("Freelancers fetched successfully.");
+              console.log(data.data);
+          } else {
+              console.log("Failed to fetch freelancers.");
+          }
+
+          // Fetch role profiles
+          const roleProfileResponse = await fetch(`${URL}role-profile`, {
+              headers: {
+                  "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+              }
+          });
+
+          const roleProfileData = await roleProfileResponse.json();
+
+          if (roleProfileResponse.ok) {
+              console.log("Role profiles fetched successfully.");
+              console.log(roleProfileData.data);
+          } else {
+              console.log("Failed to fetch role profiles.");
+          }
       } catch (error) {
-        console.error("Error fetching freelancers:", error);
+          console.error("Error fetching freelancers or role profiles:", error);
       }
     };
 
-    const createFreelancer = async (freelancer) => {
+  const createFreelancer = async (freelancer) => {
       if (!isLoggedIn) {
           console.log("User is not logged in. Cannot create freelancer.");
           return;
       }
-  
+
       try {
           const response = await fetch(`${URL}freelancers`, {
               method: "POST",
@@ -261,18 +279,35 @@ function App() {
               },
               body: JSON.stringify(freelancer),
           });
-  
+
           if (response.ok) {
               console.log("Freelancer created successfully.");
               getFreelancer();
-              navigate(`/freelancers`);
+
+              // Additional POST to /role-profile
+              const roleProfileResponse = await fetch(`${URL}role-profile`, {
+                  method: "POST",
+                  headers: {
+                      "Content-Type": "application/json",
+                      "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+                  },
+                  body: JSON.stringify(freelancer),
+              });
+
+              if (roleProfileResponse.ok) {
+                  console.log("Posted to role-profile successfully.");
+                  getFreelancer();
+                  navigate(`/freelancers`);
+              } else {
+                  console.log("Failed to post to role-profile.");
+              }
           } else {
               console.log("Failed to create freelancer.");
           }
       } catch (error) {
           console.error("Error creating freelancer:", error);
       }
-    };
+  };
 
     const updateFreelancer = async (freelancer, id) => {
       if (!isLoggedIn) {
