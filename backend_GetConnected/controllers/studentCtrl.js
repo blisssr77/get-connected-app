@@ -3,7 +3,7 @@ const db = require("../models");
 // Get Students for the current user
 const getStudents = async (req, res) => {
     try {
-        const students = await db.Student.find({ User: req.user.id });
+        const students = await db.Student.find();
         if (!students) {
             return res.status(404).json({ message: "Cannot find Students" });
         }
