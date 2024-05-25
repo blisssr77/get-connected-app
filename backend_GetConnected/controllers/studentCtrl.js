@@ -17,7 +17,7 @@ const getStudents = async (req, res) => {
 const createStudent = async (req, res) => {
     try {
         const { fullname, age, career, hobby, description, location } = req.body;
-        const photo = req.file ? req.file.path : null; // Get the photo file path if uploaded
+        const photo = req.file ? req.file.path : null;
         const userId = req.user.id;
         const newStudent = new db.Student({
             fullname,

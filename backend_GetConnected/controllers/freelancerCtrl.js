@@ -22,7 +22,7 @@ const createFreelancer = async (req, res) => {
         console.log("Request user:", req.user);
         
         const { fullname, age, career, hobby, degree, location, description, experience } = req.body;
-        const photo = req.file ? req.file.path : null; // Get the photo file path if uploaded
+        const photo = req.file ? req.file.path : null;
         const userId = req.user.id
 
         if (!userId) {

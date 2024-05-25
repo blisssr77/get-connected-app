@@ -12,6 +12,7 @@ import FreelancerForm from './components/Pages/FreelancerForm';
 import RoleSelection from './components/Pages/RoleSelection';
 import RoleProfile from './components/Pages/RoleProfilePages/RoleProfile';
 import RoleProfileDetail from './components/Pages/RoleProfilePages/RoleProfileDetail';
+import LikedStudents from './components/Pages/StudentPages/LikedStudents'
 import {  Route, Routes, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import { useEffect, useState, createContext } from 'react';
 
@@ -315,7 +316,74 @@ function App() {
         getFreelancer();
     }
 
-    const deleteAll = deleteStudent || deleteFreelancer
+    // Below is the code handles LIKE----------------------------------------------------------------------------------------------
+    const [likedStudent, setLikedStudents] = useState(null);
+    const getLikedStudents = async () => {
+      try {
+        const response = await fetch(`${URL}liked-students`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+          }
+        });
+    
+        if (response.ok) {
+          const data = await response.json();
+          setLikedStudents(data); // Assuming setLikedStudents is a state setter function
+          console.log("Liked students fetched successfully.");
+          console.log(data)
+        } else {
+          console.log("Failed to fetch liked students.");
+        }
+      } catch (error) {
+        console.error("Error fetching liked students:", error);
+      }
+    };
+    const handleStudentLike = async (studentId) => {
+      const userId = user?.id; // Assuming user is available in context or state
+    
+      try {
+        // Fetch the list of liked students for the user
+        const likedResponse = await fetch(`${URL}liked-students`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+          }
+        });
+    
+        if (likedResponse.ok) {
+          const likedStudents = await likedResponse.json();
+          const existingLike = likedStudents.find(students => students.studentId === studentId);
+    
+          // Check if the student is already liked by the user
+          if (existingLike) {
+            console.log('Student already liked');
+            return;
+          }
+    
+          // If not already liked, proceed to like the student
+          const response = await fetch(`${process.env.REACT_APP_URL}/liked-students`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+            },
+            body: JSON.stringify({ userId, studentId }),
+          });
+    
+          if (response.ok) {
+            console.log("Student liked successfully.");
+            getLikedStudents(); // Assuming this function fetches the updated list of liked students
+          } else {
+            console.log("Failed to like student.");
+          }
+        } else {
+          console.log("Failed to fetch liked students.");
+        }
+      } catch (error) {
+        console.error("Error liking student:", error);
+      }
+    };
 
     useEffect(() => {
       const token = localStorage.getItem("authToken");
@@ -323,6 +391,7 @@ function App() {
         setIsLoggedIn(true);
         getStudent();
         getFreelancer();
+        getLikedStudents();
       } else {
         setIsLoggedIn(false);
       }
@@ -334,6 +403,7 @@ function App() {
 
     <AppContext.Provider value={{ 
       getStudent, getFreelancer, updateStudent, updateFreelancer, deleteStudent, deleteFreelancer, 
+      handleStudentLike, getLikedStudents,
       students, freelancers, isLoggedIn, handleLogin, handleSignUp, handleLogout, fetchUser 
       }}>
       
@@ -357,6 +427,7 @@ function App() {
           <Route path='/student-form' element={<StudentForm createStudent={(student) => createStudent(student)} />} />
           <Route path="/students" element={<Students />} />
           <Route path="/students/:id" element={<StudentDetail />} />
+          <Route path= "/liked-students" element={<LikedStudents handleStudentLike={handleStudentLike}/>} />
 
           {/* Controls Freelancer */}
           <Route path="/freelancers" element={<Freelancers />} />

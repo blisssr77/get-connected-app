@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { AppContext } from '../../App';
 
 const Students = (props) => {
-    const { students } = useContext(AppContext);
+    const { students, handleStudentLike } = useContext(AppContext);
     const [search, setSearch] = useState('');
 
     const handleSearchChange = (e) => {
@@ -15,27 +15,6 @@ const Students = (props) => {
             value != null && value.toString().toLowerCase().includes(search.toLowerCase())
         );
     });
-
-    const handleLike = async (studentId) => {
-        try {
-            const response = await fetch(`${process.env.REACT_APP_URL}liked-students`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem("authToken")}`
-                },
-                body: JSON.stringify({ studentId }),
-            });
-
-            if (response.ok) {
-                console.log("Student liked successfully.");
-            } else {
-                console.log("Failed to like student.");
-            }
-        } catch (error) {
-            console.error("Error liking student:", error);
-        }
-    };
 
     const loaded = () => {
         return (
@@ -67,7 +46,7 @@ const Students = (props) => {
                         <div className='flex'>
                             <span 
                                 className="text-3xl ml-auto cursor-pointer"
-                                onClick={() => handleLike(student._id)}
+                                onClick={() => handleStudentLike(student._id)}
                             >
                                 <ion-icon name="heart-outline"></ion-icon>
                             </span>

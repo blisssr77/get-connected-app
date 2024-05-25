@@ -34,6 +34,10 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
         navigate('/role-profile')
     }
 
+    const goToLikedStudents = () => {
+        navigate('/liked-students')
+    }
+
     const toggleProfileDropdown = () => {
         setProfileOpen(!profileOpen);
     };
@@ -81,7 +85,7 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
                             </button>
                             {profileOpen && (
                                 <ul className='absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg' >
-                                    <li className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer' >Option 1</li>
+                                    <li onClick={goToLikedStudents} className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer' >Liked Students</li>
                                     <li onClick={goToRoleProfile} className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer' >My Role Profile</li>
                                     <li onClick={handleLogout} className='block px-4 py-2 text-sm font-extrabold text-gray-700 hover:bg-gray-100 cursor-pointer' >LOGOUT</li>
                                 </ul>
