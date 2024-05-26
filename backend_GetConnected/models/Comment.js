@@ -8,7 +8,7 @@ CommentSchema = new mongoose.Schema({
     User: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     Student: { type: mongoose.Schema.Types.ObjectId, ref: 'Student' },
     Freelancer: { type: mongoose.Schema.Types.ObjectId, ref: 'Freelancer' },
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('Comment', CommentSchema);
     

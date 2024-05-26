@@ -12,6 +12,6 @@ const freelancerSchema = new mongoose.Schema({
     experience: { type: String, required: true },
     photo: { type: String, required: false },
     User: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('Freelancer', freelancerSchema);

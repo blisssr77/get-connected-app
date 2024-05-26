@@ -3,18 +3,18 @@ import { Link } from 'react-router-dom';
 import { AppContext } from '../../../App';
 
 const RoleProfile = () => {
-    const { students, freelancers } = useContext(AppContext);
+    const { students, freelancers, user } = useContext(AppContext);
     const [filteredStudents, setFilteredStudents] = useState([]);
     const [filteredFreelancers, setFilteredFreelancers] = useState([]);
 
     useEffect(() => {
-        if (students) {
-            setFilteredStudents(students);
+        if (students && user) {
+            setFilteredStudents(students.filter(student => student.userId === user._id));
         }
-        if (freelancers) {
-            setFilteredFreelancers(freelancers);
+        if (freelancers && user) {
+            setFilteredFreelancers(freelancers.filter(freelancer => freelancer.userId === user._id));
         }
-    }, [students, freelancers]);
+    }, [students, freelancers, user]);
 
     const loadedStudents = () => {
         return (

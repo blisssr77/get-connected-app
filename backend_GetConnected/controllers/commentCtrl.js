@@ -8,12 +8,12 @@ const createComment = async (req, res) => {
 
         const newComment = new db.Comment({
             content,
-            student: studentId,
-            user: userId,
+            Student: studentId,
+            User: userId,
         });
 
         await newComment.save();
-        const populatedComment = await newComment.populate('user', 'fullname').execPopulate();
+        const populatedComment = await newComment.populate('User', 'fullname').execPopulate();
 
         res.status(201).json({ message: "Comment created successfully", data: populatedComment });
     } catch (err) {
@@ -27,7 +27,7 @@ const updateComment = async (req, res) => {
         const { content } = req.body;
         const commentId = req.params.id;
 
-        const updatedComment = await db.Comment.findByIdAndUpdate(commentId, { content }, { new: true }).populate('user', 'fullname');
+        const updatedComment = await db.Comment.findByIdAndUpdate(commentId, { content }, { new: true }).populate('User', 'fullname');
 
         if (!updatedComment) {
             return res.status(404).json({ message: "Comment not found" });
@@ -60,15 +60,13 @@ const deleteComment = async (req, res) => {
 const getCommentsByStudent = async (req, res) => {
     try {
         const studentId = req.params.id;
-        const comments = await db.Comment.find({ student: studentId }).populate('user', 'fullname');
+        const comments = await db.Comment.find({ Student: studentId }).populate('User', 'fullname');
 
         res.status(200).json({ data: comments });
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
 };
-
-//
 
 module.exports = {
     createComment,

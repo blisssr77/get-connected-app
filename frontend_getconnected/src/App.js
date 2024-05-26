@@ -9,7 +9,7 @@ import Freelancers from './components/Pages/Freelancers';
 import StudentDetail from './components/Pages/StudentDetail';
 import HelloUser from './components/LoginSignup/HelloUser';
 import FreelancerForm from './components/Pages/FreelancerForm';
-import RoleSelection from './components/Pages/RoleSelection';
+import RoleSelection from './components/Pages/RoleProfilePages/RoleSelection';
 import RoleProfile from './components/Pages/RoleProfilePages/RoleProfile';
 import RoleProfileDetail from './components/Pages/RoleProfilePages/RoleProfileDetail';
 import LikedStudents from './components/Pages/StudentPages/LikedStudents'
@@ -317,7 +317,8 @@ function App() {
     }
 
     // Below is the code handles LIKE----------------------------------------------------------------------------------------------
-    const [likedStudent, setLikedStudents] = useState(null);
+    const [likedStudents, setLikedStudents] = useState([]);
+
     const getLikedStudents = async () => {
       try {
         const response = await fetch(`${URL}liked-students`, {
@@ -326,12 +327,12 @@ function App() {
             "Authorization": `Bearer ${localStorage.getItem("authToken")}`
           }
         });
-    
+
         if (response.ok) {
           const data = await response.json();
-          setLikedStudents(data); // Assuming setLikedStudents is a state setter function
           console.log("Liked students fetched successfully.");
-          console.log(data)
+          console.log(data);
+          setLikedStudents(data); // Assuming data is the array of liked students
         } else {
           console.log("Failed to fetch liked students.");
         }
@@ -339,9 +340,10 @@ function App() {
         console.error("Error fetching liked students:", error);
       }
     };
+
     const handleStudentLike = async (studentId) => {
-      const userId = user?.id; // Assuming user is available in context or state
-    
+      // const userId = user?.id; 
+
       try {
         // Fetch the list of liked students for the user
         const likedResponse = await fetch(`${URL}liked-students`, {
@@ -350,31 +352,35 @@ function App() {
             "Authorization": `Bearer ${localStorage.getItem("authToken")}`
           }
         });
-    
+
         if (likedResponse.ok) {
           const likedStudents = await likedResponse.json();
-          const existingLike = likedStudents.find(students => students.studentId === studentId);
-    
+          console.log("Fetched liked students:", likedStudents);
+          const existingLike = likedStudents.find(student => student.studentId._id === studentId);
+
           // Check if the student is already liked by the user
           if (existingLike) {
             console.log('Student already liked');
             return;
           }
-    
+
           // If not already liked, proceed to like the student
-          const response = await fetch(`${process.env.REACT_APP_URL}/liked-students`, {
+          const response = await fetch(`${URL}liked-students`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
               "Authorization": `Bearer ${localStorage.getItem("authToken")}`
             },
-            body: JSON.stringify({ userId, studentId }),
+            body: JSON.stringify({ studentId }),
+
+            // body: JSON.stringify({ userId, studentId }),
           });
-    
+
           if (response.ok) {
             console.log("Student liked successfully.");
             getLikedStudents(); // Assuming this function fetches the updated list of liked students
           } else {
+            console.log(studentId)
             console.log("Failed to like student.");
           }
         } else {
@@ -383,6 +389,103 @@ function App() {
       } catch (error) {
         console.error("Error liking student:", error);
       }
+    };
+
+    // Below is the code handles Studen Comment----------------------------------------------------------------------------------------
+    const [comments, setComments] = useState([]);
+
+    // Get all comments for a specific student
+    const getCommentsByStudent = async (studentId) => {
+        try {
+            const response = await fetch(`${URL}students/${studentId}`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setComments(data.data);
+                console.log("Comments fetched successfully.");
+                console.log(data.data);
+            } else {
+                console.log("Failed to fetch comments.");
+            }
+        } catch (error) {
+            console.error("Error fetching comments:", error);
+        }
+    };
+
+    // Create a new comment
+    const createComment = async (comment) => {
+        try {
+            const response = await fetch(`${URL}students`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+                },
+                body: JSON.stringify(comment),
+            });
+
+            if (response.ok) {
+                console.log("Comment created successfully.");
+                const newComment = await response.json();
+                setComments([...comments, newComment.data]);
+            } else {
+                console.log("Failed to create comment.");
+            }
+        } catch (error) {
+            console.error("Error creating comment:", error);
+        }
+    };
+
+    // Update an existing comment
+    const updateComment = async (commentId, updatedContent) => {
+        try {
+            const response = await fetch(`${URL}comments/${commentId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+                },
+                body: JSON.stringify({ content: updatedContent }),
+            });
+
+            if (response.ok) {
+                console.log("Comment updated successfully.");
+                const updatedComment = await response.json();
+                setComments(comments.map(comment => 
+                    comment._id === commentId ? updatedComment.data : comment
+                ));
+            } else {
+                console.log("Failed to update comment.");
+            }
+        } catch (error) {
+            console.error("Error updating comment:", error);
+        }
+    };
+
+    // Delete a comment
+    const deleteComment = async (commentId) => {
+        try {
+            const response = await fetch(`${URL}comments/${commentId}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+                },
+            });
+
+            if (response.ok) {
+                console.log("Comment deleted successfully.");
+                setComments(comments.filter(comment => comment._id !== commentId));
+            } else {
+                console.log("Failed to delete comment.");
+            }
+        } catch (error) {
+            console.error("Error deleting comment:", error);
+        }
     };
 
     useEffect(() => {

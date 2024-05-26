@@ -17,18 +17,9 @@ const getFreelancers = async (req, res) => {
 // Create a new Freelancer
 const createFreelancer = async (req, res) => {
     try {
-        console.log("Request body:", req.body);
-        console.log("Request file:", req.file);
-        console.log("Request user:", req.user);
-        
         const { fullname, age, career, hobby, degree, location, description, experience } = req.body;
         const photo = req.file ? req.file.path : null;
         const userId = req.user.id
-
-        if (!userId) {
-            return res.status(400).json({ error: "User ID is required" });
-        }
-
         const newFreelancer = new db.Freelancer({
             fullname,
             age,

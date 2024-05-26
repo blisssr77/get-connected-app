@@ -8,7 +8,6 @@ const URL = process.env.REACT_APP_URL;
 const StudentDetail = () => {
     const { id } = useParams();
     const { students, isLoggedIn } = useContext(AppContext);
-    console.log(students)
     const [student, setStudent] = useState(null);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
@@ -23,7 +22,7 @@ const StudentDetail = () => {
 
     const fetchComments = async () => {
         try {
-            const response = await fetch(`${URL}students/${id}`, {
+            const response = await fetch(`${URL}student/${id}`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem("authToken")}`
                 }
@@ -47,7 +46,7 @@ const StudentDetail = () => {
         }
 
         try {
-            const response = await fetch(`${URL}students/student.id`, {
+            const response = await fetch(`${URL}students`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -75,7 +74,7 @@ const StudentDetail = () => {
         }
 
         try {
-            const response = await fetch(`${URL}comments/${editCommentId}`, {
+            const response = await fetch(`${URL}${editCommentId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -93,6 +92,31 @@ const StudentDetail = () => {
             }
         } catch (error) {
             console.error("Error updating comment:", error);
+        }
+    };
+
+    const handleDeleteComment = async (commentId) => {
+        if (!isLoggedIn) {
+            console.error("User is not logged in");
+            return;
+        }
+
+        try {
+            const response = await fetch(`${URL}students/${commentId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("authToken")}`
+                }
+            });
+
+            if (response.ok) {
+                setComments(comments.filter(comment => comment._id !== commentId));
+                console.log("Comment deleted successfully.");
+            } else {
+                console.error("Failed to delete comment");
+            }
+        } catch (error) {
+            console.error("Error deleting comment:", error);
         }
     };
 
@@ -135,51 +159,66 @@ const StudentDetail = () => {
                         <textarea
                             value={newComment}
                             onChange={(e) => setNewComment(e.target.value)}
-                            placeholder="Add a comment..."
                             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                            placeholder="Write a comment..."
+                            required
                         />
                         <button
                             type="submit"
                             className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
                         >
-                            Submit
+                            Add Comment
                         </button>
                     </form>
-                    <div className="mt-8 space-y-4">
-                        {comments.map(comment => (
-                            <div key={comment._id} className="bg-gray-100 p-4 rounded-lg shadow-md">
-                                {editCommentId === comment._id ? (
-                                    <form onSubmit={handleCommentUpdate} className="space-y-2">
+
+                    <div className="mt-8">
+                        {comments.map((comment) => (
+                            <div key={comment._id} className="mb-4">
+                                <div className="bg-gray-100 p-4 rounded-lg shadow-sm">
+                                    <p className="text-gray-800">{comment.content}</p>
+                                    <p className="text-gray-500 text-sm">- {comment.user.fullname}</p>
+                                    {isLoggedIn && (
+                                        <div className="flex justify-end space-x-2 mt-2">
+                                            <button
+                                                onClick={() => handleEditClick(comment)}
+                                                className="text-blue-500 hover:underline"
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                onClick={() => handleDeleteComment(comment._id)}
+                                                className="text-red-500 hover:underline"
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                                {editCommentId === comment._id && (
+                                    <form onSubmit={handleCommentUpdate} className="mt-4 space-y-2">
                                         <textarea
                                             value={editCommentContent}
                                             onChange={(e) => setEditCommentContent(e.target.value)}
                                             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                            placeholder="Edit your comment..."
+                                            required
                                         />
-                                        <button
-                                            type="submit"
-                                            className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
-                                        >
-                                            Update
-                                        </button>
-                                        <button
-                                            type="button"
-                                            onClick={handleCancelEdit}
-                                            className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700"
-                                        >
-                                            Cancel
-                                        </button>
+                                        <div className="flex justify-end space-x-2">
+                                            <button
+                                                type="submit"
+                                                className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
+                                            >
+                                                Update Comment
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={handleCancelEdit}
+                                                className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
+                                            >
+                                                Cancel
+                                            </button>
+                                        </div>
                                     </form>
-                                ) : (
-                                    <>
-                                        <p className="text-gray-700">{comment.content}</p>
-                                        <p className="text-gray-500 text-sm">- {comment.user.fullname}</p>
-                                        <button
-                                            onClick={() => handleEditClick(comment)}
-                                            className="bg-blue-600 text-white px-2 py-1 rounded-md hover:bg-blue-700"
-                                        >
-                                            Edit
-                                        </button>
-                                    </>
                                 )}
                             </div>
                         ))}

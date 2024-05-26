@@ -11,7 +11,7 @@ const studentSchema = new mongoose.Schema({
     photo: { type: String, required: false },
     User: { type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('Student', studentSchema);
 

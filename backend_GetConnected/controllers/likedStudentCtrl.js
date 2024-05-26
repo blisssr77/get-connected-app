@@ -1,4 +1,17 @@
 const LikedStudent = require('../models/LikedStudent');
+const db = require('../models');
+
+// Controller to fetch liked students for a user
+const getLikedStudents = async (req, res) => {
+    const userId = req.user.id;
+  
+    try {
+      const likedStudents = await LikedStudent.find({ userId }).populate('studentId');
+      res.status(200).json(likedStudents);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
 
 // Controller to handle liking a student
 const likeStudent = async (req, res) => {
@@ -26,18 +39,7 @@ const likeStudent = async (req, res) => {
     }
   };
 
-// Controller to fetch liked students for a user
-const getLikedStudents = async (req, res) => {
-    const { studentId } = req.body;
-    const userId = req.user.id;
-  
-    try {
-      const likedStudents = await LikedStudent.find({ userId, studentId }).populate('studentId');
-      res.status(200).json(likedStudents);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  };
+
   
   module.exports = {
     likeStudent,
