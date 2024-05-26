@@ -3,19 +3,11 @@ import { Link } from 'react-router-dom';
 import { AppContext } from '../../../App';
 
 const LikedStudents = () => {
-    const { getLikedStudents } = useContext(AppContext);
-    const [likedStudents, setLikedStudents] = useState([]);
+    const { getLikedStudents, likedStudents } = useContext(AppContext);
     const [search, setSearch] = useState('');
 
     useEffect(() => {
-        // Fetch the liked students when the component mounts
-        const fetchLikedStudents = async () => {
-            const response = await getLikedStudents();
-            if (response) {
-                setLikedStudents(response);
-            }
-        };
-        fetchLikedStudents();
+        getLikedStudents();
     }, []);
 
     const handleSearchChange = (e) => {

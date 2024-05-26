@@ -120,8 +120,8 @@ function App() {
           const roleProfileData = await roleProfileResponse.json();
   
           if (roleProfileResponse.ok) {
-              console.log("Role profiles fetched successfully.");
-              console.log(roleProfileData.data);
+              console.log("Student Role profiles fetched successfully.");
+              // console.log(roleProfileData.data);
           } else {
               console.log("Failed to fetch role profiles.");
           }
@@ -236,8 +236,8 @@ function App() {
           const roleProfileData = await roleProfileResponse.json();
 
           if (roleProfileResponse.ok) {
-              console.log("Role profiles fetched successfully.");
-              console.log(roleProfileData.data);
+              console.log("Freelancer Role profiles fetched successfully.");
+              // console.log(roleProfileData.data);
           } else {
               console.log("Failed to fetch role profiles.");
           }
@@ -332,7 +332,7 @@ function App() {
           const data = await response.json();
           console.log("Liked students fetched successfully.");
           console.log(data);
-          setLikedStudents(data); // Assuming data is the array of liked students
+          setLikedStudents(data); 
         } else {
           console.log("Failed to fetch liked students.");
         }
@@ -375,10 +375,9 @@ function App() {
 
             // body: JSON.stringify({ userId, studentId }),
           });
-
           if (response.ok) {
             console.log("Student liked successfully.");
-            getLikedStudents(); // Assuming this function fetches the updated list of liked students
+            getLikedStudents(); 
           } else {
             console.log(studentId)
             console.log("Failed to like student.");
@@ -507,7 +506,7 @@ function App() {
     <AppContext.Provider value={{ 
       getStudent, getFreelancer, updateStudent, updateFreelancer, deleteStudent, deleteFreelancer, 
       handleStudentLike, getLikedStudents,
-      students, freelancers, isLoggedIn, handleLogin, handleSignUp, handleLogout, fetchUser 
+      students, freelancers, likedStudents, isLoggedIn, handleLogin, handleSignUp, handleLogout, fetchUser 
       }}>
       
       <div className='bg-gray-100 w-full h-screen' style={{background:'linear-gradient(#C6F6D5, #000000)'}}>
