@@ -3,18 +3,27 @@ import { Link } from 'react-router-dom';
 import { AppContext } from '../../App';
 
 const Freelancers = (props) => {
-    const allFreelancers = useContext(AppContext);
+    const { freelancers, handleFreelancerLike } = useContext(AppContext);
     const [search, setSearch] = useState('');
+    const [liked, setLiked] = useState({});
 
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
     };
 
-    const filteredFreelancers = allFreelancers.freelancers?.filter(freelancer => {
+    const filteredFreelancers = freelancers?.filter(freelancer => {
         return Object.values(freelancer).some(value =>
             value != null && value.toString().toLowerCase().includes(search.toLowerCase())
         );
     });
+
+    const handleLikeClick = async (freelancerId) => {
+        await handleFreelancerLike(freelancerId);
+        setLiked(prevLiked => ({
+            ...prevLiked,
+            [freelancerId]: !prevLiked[freelancerId]
+        }));
+    };
 
     const loaded = () => {
         return (
@@ -36,14 +45,20 @@ const Freelancers = (props) => {
                             <p className="text-gray-700"><strong>Age:</strong> {freelancer.age}</p>
                             <p className="text-gray-700"><strong>Career:</strong> {freelancer.career}</p>
                             <p className="text-gray-700"><strong>Hobby:</strong> {freelancer.hobby}</p>
-                            <p className='text-gray-700'><strong>Degree:</strong> {freelancer.degree}</p>
-                            <p className="text-gray-700"><strong>Experience:</strong> {freelancer.experience}</p>
                             <p className="text-gray-700"><strong>Description:</strong> {freelancer.description}</p>
                         </div>
                         <div className="mt-4">
                             <Link to={`/freelancers/${freelancer._id}`}>
                                 <button className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Leave Comments</button>
                             </Link>
+                        </div>
+                        <div className='flex'>
+                            <span 
+                                className="text-3xl ml-auto cursor-pointer"
+                                onClick={() => handleLikeClick(freelancer._id)}
+                            >
+                                <ion-icon name={liked[freelancer._id] ? "heart" : "heart-outline"}></ion-icon>
+                            </span>
                         </div>
                     </div>
                 ))}
@@ -68,7 +83,7 @@ const Freelancers = (props) => {
                         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                     />
                 </div>
-                {allFreelancers.freelancers && allFreelancers.freelancers.length > 0 ? loaded() : loading()}
+                {freelancers && freelancers.length > 0 ? loaded() : loading()}
             </div>
         </div>
     );

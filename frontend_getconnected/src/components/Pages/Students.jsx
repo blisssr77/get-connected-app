@@ -5,7 +5,7 @@ import { AppContext } from '../../App';
 const Students = (props) => {
     const { students, handleStudentLike } = useContext(AppContext);
     const [search, setSearch] = useState('');
-    const [liked, setLiked] = useState({}); // State to track liked status
+    const [liked, setLiked] = useState({}); 
 
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
