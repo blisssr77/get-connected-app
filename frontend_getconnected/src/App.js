@@ -13,6 +13,7 @@ import RoleSelection from './components/Pages/RoleProfilePages/RoleSelection';
 import RoleProfile from './components/Pages/RoleProfilePages/RoleProfile';
 import RoleProfileDetail from './components/Pages/RoleProfilePages/RoleProfileDetail';
 import LikedStudents from './components/Pages/StudentPages/LikedStudents'
+import LikedFreelancers from './components/Pages/FreelancerPages/LikedFreelancers';
 import {  Route, Routes, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import { useEffect, useState, createContext } from 'react';
 
@@ -342,8 +343,6 @@ function App() {
     };
 
     const handleStudentLike = async (studentId) => {
-      // const userId = user?.id; 
-
       try {
         // Fetch the list of liked students for the user
         const likedResponse = await fetch(`${URL}liked-students`, {
@@ -372,9 +371,8 @@ function App() {
               "Authorization": `Bearer ${localStorage.getItem("authToken")}`
             },
             body: JSON.stringify({ studentId }),
-
-            // body: JSON.stringify({ userId, studentId }),
           });
+
           if (response.ok) {
             console.log("Student liked successfully.");
             getLikedStudents(); 
@@ -390,7 +388,78 @@ function App() {
       }
     };
 
-    // Below is the code handles Studen Comment----------------------------------------------------------------------------------------
+    // Below is the code handles Freelancer LIKE---------------------------------------------------------------------------------------
+    const [likedFreelancers, setLikedFreelancers] = useState([]);
+
+    const getLikedFreelancers = async () => {
+      try {
+        const response = await fetch(`${URL}liked-freelancers`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Liked freelancers fetched successfully.");
+          console.log(data);
+          setLikedFreelancers(data);
+        } else {
+          console.log("Failed to fetch liked freelancers.");
+        }
+      } catch (error) {
+        console.error("Error fetching liked freelancers:", error);
+      }
+    };
+
+    const handleFreelancerLike = async (freelancerId) => {
+      try {
+        // Fetch the list of liked freelancers for the user
+        const likedResponse = await fetch(`${URL}liked-freelancers`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+          }
+        });
+
+        if (likedResponse.ok) {
+          const likedFreelancers = await likedResponse.json();
+          console.log("Fetched liked freelancers:", likedFreelancers);
+          const existingLike = likedFreelancers.find(freelancer => freelancer.freelancerId._id === freelancerId);
+
+          // Check if the freelancer is already liked by the user
+          if (existingLike) {
+            console.log('Freelancer already liked');
+            return;
+          }
+
+          // If not already liked, proceed to like the freelancer
+          const response = await fetch(`${URL}liked-freelancers`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+            },
+            body: JSON.stringify({ freelancerId }),
+          });
+
+          if (response.ok) {
+            console.log("Freelancer liked successfully.");
+            getLikedFreelancers(); 
+          } else {
+            console.log(freelancerId)
+            console.log("Failed to like freelancer.");
+          }
+        } else {
+          console.log("Failed to fetch liked freelancers.");
+        }
+      } catch (error) {
+        console.error("Error liking freelancer:", error);
+      }
+    };
+
+    // Below is the code handles Student Comment----------------------------------------------------------------------------------------
     const [comments, setComments] = useState([]);
 
     // Get all comments for a specific student
@@ -505,8 +574,9 @@ function App() {
 
     <AppContext.Provider value={{ 
       getStudent, getFreelancer, updateStudent, updateFreelancer, deleteStudent, deleteFreelancer, 
-      handleStudentLike, getLikedStudents,
-      students, freelancers, likedStudents, isLoggedIn, handleLogin, handleSignUp, handleLogout, fetchUser 
+      handleStudentLike, getLikedStudents,handleFreelancerLike, getLikedFreelancers,
+      students, freelancers, likedStudents, likedFreelancers, 
+      isLoggedIn, handleLogin, handleSignUp, handleLogout, fetchUser 
       }}>
       
       <div className='bg-gray-100 w-full h-screen' style={{background:'linear-gradient(#C6F6D5, #000000)'}}>
@@ -534,7 +604,7 @@ function App() {
           {/* Controls Freelancer */}
           <Route path="/freelancers" element={<Freelancers />} />
           <Route path='/freelancer-form' element={<FreelancerForm createFreelancer={(freelancer) => createFreelancer(freelancer)} />} />
-        
+          <Route path='/liked-freelancers' element={<LikedFreelancers handleFreelancerLike={handleFreelancerLike}/>} />
         </Routes>
     </div>
   </AppContext.Provider>
