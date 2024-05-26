@@ -4,6 +4,7 @@ const studentCtrl = require("./studentCtrl")
 const freelancerCtrl = require("./freelancerCtrl")
 const commentCtrl = require("./commentCtrl")
 const likedStudentCtrl = require("./likedStudentCtrl")
+const likedFreelancersCtrl = require("./likedFreelancerCtrl")
 
 const upload = require("../middleware/upload")
 const { verifyToken } = require("../middleware/verifyToken")
@@ -48,6 +49,8 @@ router.put('/role-profile/:id', freelancerCtrl.deleteFreelancer)
 // Likes
 router.get('/liked-students', likedStudentCtrl.getLikedStudents)
 router.post('/liked-students', likedStudentCtrl.likeStudent)
+router.get('/liked-freelancers', likedFreelancersCtrl.getLikedFreelancers)
+router.post('/liked-freelancers', likedFreelancersCtrl.likeFreelancer)
 
 
 
