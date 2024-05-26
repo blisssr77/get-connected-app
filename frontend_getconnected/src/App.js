@@ -1,7 +1,7 @@
 import './App.css';
 import Login from './components/LoginSignup/Login';
 import Signup from './components/LoginSignup/Signup';
-import Homepage from './components/Pages/Homepage';
+import Homepage from './components/LoginSignup/Homepage';
 import Navbar from './components/Navbar/Navbar';
 import StudentForm from './components/Pages/StudentForm';
 import Students from './components/Pages/Students';

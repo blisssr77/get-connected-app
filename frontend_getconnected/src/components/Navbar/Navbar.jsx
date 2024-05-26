@@ -38,6 +38,10 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
         navigate('/liked-students')
     }
 
+    const goToLikedFreelancers = () => {
+        navigate('/liked-freelancers')
+    }
+
     const toggleProfileDropdown = () => {
         setProfileOpen(!profileOpen);
     };
@@ -84,10 +88,11 @@ const Navbar = ({ isLoggedIn, handleLogout }) => {
                                 Account
                             </button>
                             {profileOpen && (
-                                <ul className='absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg' >
-                                    <li onClick={goToLikedStudents} className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer' >Liked Students</li>
-                                    <li onClick={goToRoleProfile} className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer' >My Role Profile</li>
-                                    <li onClick={handleLogout} className='block px-4 py-2 text-sm font-extrabold text-gray-700 hover:bg-gray-100 cursor-pointer' >LOGOUT</li>
+                                <ul className='absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg'>
+                                    <li onClick={goToLikedStudents} className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer' ><span className="text-xl"><ion-icon name="heart-circle-outline"></ion-icon></span>Liked Students</li>
+                                    <li onClick={goToLikedFreelancers} className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer' ><span className="text-xl"><ion-icon name="heart-circle-outline"></ion-icon></span>Liked Frelancers</li>
+                                    <li onClick={goToRoleProfile} className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer' ><span className='text-xl'><ion-icon name="person-circle-outline"></ion-icon></span>My Role Profile</li>
+                                    <li onClick={handleLogout} className='block px-4 py-2 text-sm font-extrabold text-gray-700 hover:bg-gray-100 cursor-pointer' >LOGOUT<span className='text-xl'><ion-icon name="finger-print-outline"></ion-icon></span></li>
                                 </ul>
                             )}
                         </li>

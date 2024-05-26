@@ -3,18 +3,18 @@ import { Link } from 'react-router-dom';
 import { AppContext } from '../../../App';
 
 const RoleProfile = () => {
-    const { students, freelancers, user } = useContext(AppContext);
+    const { students, freelancers } = useContext(AppContext);
     const [filteredStudents, setFilteredStudents] = useState([]);
     const [filteredFreelancers, setFilteredFreelancers] = useState([]);
 
     useEffect(() => {
-        if (students && user) {
-            setFilteredStudents(students.filter(student => student.userId === user._id));
+        if (students) {
+            setFilteredStudents(students);
         }
-        if (freelancers && user) {
-            setFilteredFreelancers(freelancers.filter(freelancer => freelancer.userId === user._id));
+        if (freelancers) {
+            setFilteredFreelancers(freelancers);
         }
-    }, [students, freelancers, user]);
+    }, [students, freelancers]);
 
     const loadedStudents = () => {
         return (
@@ -40,7 +40,7 @@ const RoleProfile = () => {
                         </div>
                         <div className="mt-4">
                             <Link to={`/role-profile/${student._id}`}>
-                                <button className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Update Student Profile</button>
+                                <button className="bg-indigo-600 text-white font-semibold px-4 py-2 rounded-md hover:bg-indigo-700" style={{fontSize:"13px"}}>Update Student Profile</button>
                             </Link>
                             
                         </div>
@@ -76,7 +76,7 @@ const RoleProfile = () => {
                         </div>
                         <div className="mt-4">
                             <Link to={`/role-profile/${freelancer._id}`}>
-                                <button className=" text-white px-4 py-2 rounded-md hover:bg-indigo-700" style={{backgroundColor:"#3498eb"}}>Update Freelancer Profile</button>
+                                <button className=" text-white px-4 py-2 rounded-md font-semibold hover:bg-indigo-700" style={{backgroundColor:"#3498eb", fontSize:"13px"}}>Update Freelancer Profile</button>
                             </Link>
                             
                         </div>

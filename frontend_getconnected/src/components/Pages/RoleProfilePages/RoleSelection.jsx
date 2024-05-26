@@ -43,7 +43,7 @@ const RoleSelection = () => {
           {/* Student Section */}
           <div className="w-full md:w-1/2 p-4">
             <h2 className="font-bold mb-4" style={{ fontSize: '24px' }}>Benefits of Becoming a Student</h2>
-            <p className="mb-6 font-normal" style={{ fontSize: '19px' }}>
+            <p className="mb-6 font-normal" style={{ fontSize: '17px' }}>
               As a student, you will have access to a wide range of freelancers who can help you learn new skills and complete your projects efficiently.
               Benefit from personalized teaching, flexible scheduling, and a vast pool of knowledge.
             </p>
@@ -58,7 +58,7 @@ const RoleSelection = () => {
           {/* Freelancer Section */}
           <div className="w-full md:w-1/2 p-4">
             <h2 className="font-bold mb-4" style={{ fontSize: '24px' }}>Benefits of Becoming a Freelancer</h2>
-            <p className="mb-6" style={{ fontSize: '19px' }}>
+            <p className="mb-6" style={{ fontSize: '17px' }}>
               As a freelancer, you can share your expertise with students who need your skills.
               Enjoy flexible working hours, set your own rates, and gain valuable experience by teaching and helping others.
             </p>
