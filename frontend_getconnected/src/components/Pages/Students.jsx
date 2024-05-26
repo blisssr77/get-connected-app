@@ -5,6 +5,7 @@ import { AppContext } from '../../App';
 const Students = (props) => {
     const { students, handleStudentLike } = useContext(AppContext);
     const [search, setSearch] = useState('');
+    const [liked, setLiked] = useState({}); // State to track liked status
 
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
@@ -15,6 +16,14 @@ const Students = (props) => {
             value != null && value.toString().toLowerCase().includes(search.toLowerCase())
         );
     });
+
+    const handleLikeClick = async (studentId) => {
+        await handleStudentLike(studentId);
+        setLiked(prevLiked => ({
+            ...prevLiked,
+            [studentId]: !prevLiked[studentId]
+        }));
+    };
 
     const loaded = () => {
         return (
@@ -46,9 +55,9 @@ const Students = (props) => {
                         <div className='flex'>
                             <span 
                                 className="text-3xl ml-auto cursor-pointer"
-                                onClick={() => handleStudentLike(student._id)}
+                                onClick={() => handleLikeClick(student._id)}
                             >
-                                <ion-icon name="heart-outline"></ion-icon>
+                                <ion-icon name={liked[student._id] ? "heart" : "heart-outline"}></ion-icon>
                             </span>
                         </div>
                     </div>
