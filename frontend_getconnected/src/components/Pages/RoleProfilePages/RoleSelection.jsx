@@ -49,7 +49,7 @@ const RoleSelection = () => {
             </p>
             <button
               onClick={goToStudentSignup}
-              className="bg-blue-400 font-bold text-white py-2 px-4 rounded hover:bg-blue-600"
+              className="bg-blue-400 font-bold text-white py-2 px-4 rounded hover:bg-blue-500"
             >
               Become a Student
             </button>
@@ -64,7 +64,7 @@ const RoleSelection = () => {
             </p>
             <button
               onClick={goToFreelancerSignup}
-              className="bg-green-400 font-bold text-white py-2 px-4 rounded hover:bg-green-600"
+              className="bg-orange-400 font-bold text-white py-2 px-4 rounded hover:bg-orange-500"
             >
               Become a Freelancer
             </button>

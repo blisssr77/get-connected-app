@@ -46,7 +46,7 @@ const LikedFreelancers = () => {
                         </div>
                         <div className="mt-4">
                             <Link to={`/freelancers/${freelancerId._id}`}>
-                                <button className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Leave Comments</button>
+                                <button className="bg-indigo-500 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-indigo-600">Leave Comments</button>
                             </Link>
                         </div>
                     </div>

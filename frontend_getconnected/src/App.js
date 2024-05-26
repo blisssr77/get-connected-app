@@ -3,12 +3,12 @@ import Login from './components/LoginSignup/Login';
 import Signup from './components/LoginSignup/Signup';
 import Homepage from './components/LoginSignup/Homepage';
 import Navbar from './components/Navbar/Navbar';
-import StudentForm from './components/Pages/StudentForm';
-import Students from './components/Pages/Students';
-import Freelancers from './components/Pages/Freelancers';
-import StudentDetail from './components/Pages/StudentDetail';
+import StudentForm from './components/Pages/StudentPages/StudentForm';
+import Students from './components/Pages/StudentPages/Students';
+import Freelancers from './components/Pages/FreelancerPages/Freelancers';
+import StudentDetail from './components/Pages/StudentPages/StudentDetail';
 import HelloUser from './components/LoginSignup/HelloUser';
-import FreelancerForm from './components/Pages/FreelancerForm';
+import FreelancerForm from './components/Pages/FreelancerPages/FreelancerForm';
 import RoleSelection from './components/Pages/RoleProfilePages/RoleSelection';
 import RoleProfile from './components/Pages/RoleProfilePages/RoleProfile';
 import RoleProfileDetail from './components/Pages/RoleProfilePages/RoleProfileDetail';
@@ -277,7 +277,7 @@ function App() {
           return;
       }
       try {
-          const response = await fetch(`${URL}freelancer/${id}`, {
+          const response = await fetch(`${URL}freelancers/${id}`, {
               method: "PUT",
               headers: {
                   "Content-Type": "application/json",

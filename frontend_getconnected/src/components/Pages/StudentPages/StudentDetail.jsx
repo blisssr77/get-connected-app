@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { AppContext } from '../../App';
+import { AppContext } from '../../../App';
 import { Link } from 'react-router-dom';
 
 const URL = process.env.REACT_APP_URL;
