@@ -19,7 +19,7 @@ const LikedStudents = () => {
     };
 
     const filteredLikedStudents = likedStudents?.filter(({ studentId }) => {
-        return Object.values(studentId).some(value =>
+        return studentId && Object.values(studentId).some(value =>
             value != null && value.toString().toLowerCase().includes(search.toLowerCase())
         );
     });
@@ -54,7 +54,7 @@ const LikedStudents = () => {
                         <div className='flex'>
                             <span 
                                 className="text-3xl ml-auto cursor-pointer"
-                                onClick={() => handleRemoveLike(studentId)}
+                                onClick={() => handleRemoveLike(studentId?._id)}
                             >
                                 <ion-icon name="heart"></ion-icon>
                             </span>
