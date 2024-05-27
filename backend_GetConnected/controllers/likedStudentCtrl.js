@@ -11,7 +11,7 @@ const getLikedStudents = async (req, res) => {
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
-  };
+};
 
 // Controller to handle liking a student
 const likeStudent = async (req, res) => {
@@ -29,18 +29,36 @@ const likeStudent = async (req, res) => {
       const newLikedStudent = new LikedStudent({ studentId, userId });
       await newLikedStudent.save();
 
-    //   // Populate the student details in the response
+      // Populate the student details in the response
       const populatedLikedStudent = await LikedStudent.findById(newLikedStudent._id).populate('studentId');
-  
+    
       res.status(201).json(existingLike);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  };
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+};
 
+// Controller to delete a liked student
+const deleteLikedStudent = async (req, res) => {
+  const { studentId } = req.params;
+  const userId = req.user.id;
+
+  try {
+    const likedStudent = await LikedStudent.findOneAndDelete({ userId, studentId });
+
+    if (!likedStudent) {
+      return res.status(404).json({ message: 'Liked student not found' });
+    }
+
+    res.status(200).json({ message: 'Liked student deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
   
   module.exports = {
     likeStudent,
     getLikedStudents,
+    deleteLikedStudent,
   };

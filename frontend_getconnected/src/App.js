@@ -615,7 +615,7 @@ function App() {
 
     <AppContext.Provider value={{ 
       getStudent, getFreelancer, updateStudent, updateFreelancer, deleteStudent, deleteFreelancer, 
-      handleStudentLike, getLikedStudents,handleFreelancerLike, getLikedFreelancers,
+      handleStudentLike, getLikedStudents, handleFreelancerLike, getLikedFreelancers, deleteLikedStudent, deleteLikedStudent,
       students, freelancers, likedStudents, likedFreelancers, 
       isLoggedIn, handleLogin, handleSignUp, handleLogout, fetchUser 
       }}>
@@ -640,12 +640,12 @@ function App() {
           <Route path='/student-form' element={<StudentForm createStudent={(student) => createStudent(student)} />} />
           <Route path="/students" element={<Students />} />
           <Route path="/students/:id" element={<StudentDetail />} />
-          <Route path= "/liked-students" element={<LikedStudents handleStudentLike={handleStudentLike}/>} />
+          <Route path= "/liked-students" element={<LikedStudents handleStudentLike={handleStudentLike} deleteLikedStudent={deleteLikedFreelancer}/>} />
 
           {/* Controls Freelancer */}
           <Route path="/freelancers" element={<Freelancers />} />
           <Route path='/freelancer-form' element={<FreelancerForm createFreelancer={(freelancer) => createFreelancer(freelancer)} />} />
-          <Route path='/liked-freelancers' element={<LikedFreelancers handleFreelancerLike={handleFreelancerLike}/>} />
+          <Route path='/liked-freelancers' element={<LikedFreelancers handleFreelancerLike={handleFreelancerLike} deleteLikedFreelancer={deleteLikedFreelancer}/>} />
         </Routes>
     </div>
   </AppContext.Provider>
