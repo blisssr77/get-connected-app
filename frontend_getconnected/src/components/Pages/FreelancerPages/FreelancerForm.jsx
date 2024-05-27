@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
+import { AppContext } from '../../../App';
 
 const FreelancerForm = (props) => {
+    const { createFreelancer } = useContext(AppContext);
 
     const newFreelancerForm = {
         fullname: "",
@@ -29,7 +31,7 @@ const FreelancerForm = (props) => {
         i.preventDefault();
         console.log("Freelancer Form submitted");
         console.log(newFreelancer);
-        props.createFreelancer(newFreelancer);
+        createFreelancer(newFreelancer);
     };
 
     const handleCancel = () => {

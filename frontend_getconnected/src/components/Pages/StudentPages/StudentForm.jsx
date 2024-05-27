@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
-import { Link } from 'react-router-dom';
+import { AppContext } from '../../../App';
+
 
 const StudentForm = (props) => {
+    const { createStudent } = useContext(AppContext);
     const newStudentForm = {
         fullname: "",
         age: "",
@@ -26,7 +28,7 @@ const StudentForm = (props) => {
         i.preventDefault();
         console.log("Student Form submitted");
         console.log(newStudent);
-        props.createStudent(newStudent);
+        createStudent(newStudent);
     };
 
     const handleCancel = () => {
