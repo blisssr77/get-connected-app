@@ -1,11 +1,20 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AppContext } from '../../../App';
 
 const Freelancers = (props) => {
     const { freelancers, handleFreelancerLike } = useContext(AppContext);
     const [search, setSearch] = useState('');
-    const [liked, setLiked] = useState({});
+    const [liked, setLiked] = useState(()=>{
+        // getting liked freelancers from local storage
+        const saved = localStorage.getItem("likedFreelancers");
+        return saved ? JSON.parse(saved) : {};
+    });
+
+    useEffect(() => {
+        // saving to local storage whenever liked state changes
+        localStorage.setItem("likedFreelancers", JSON.stringify(liked));
+    }, [liked]);
 
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
