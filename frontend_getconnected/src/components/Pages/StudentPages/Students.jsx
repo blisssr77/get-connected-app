@@ -1,11 +1,19 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AppContext } from '../../../App';
 
 const Students = (props) => {
     const { students, handleStudentLike } = useContext(AppContext);
     const [search, setSearch] = useState('');
-    const [liked, setLiked] = useState({}); 
+    const [liked, setLiked] = useState(() => {
+        const saved = localStorage.getItem("likedStudents");
+        return saved ? JSON.parse(saved) : {};
+    });
+
+    useEffect(() => {
+        // Save liked students to local storage whenever liked state changes
+        localStorage.setItem("likedStudents", JSON.stringify(liked));
+    }, [liked]);
 
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
