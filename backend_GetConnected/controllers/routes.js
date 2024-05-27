@@ -46,11 +46,13 @@ router.post('/role-profile', studentCtrl.createStudent)
 router.put('/role-profile/:id', studentCtrl.deleteStudent)
 router.put('/role-profile/:id', freelancerCtrl.deleteFreelancer)
 
-// Likes
+// Likes Routes below
 router.get('/liked-students', likedStudentCtrl.getLikedStudents)
 router.post('/liked-students', likedStudentCtrl.likeStudent)
 router.get('/liked-freelancers', likedFreelancersCtrl.getLikedFreelancers)
 router.post('/liked-freelancers', likedFreelancersCtrl.likeFreelancer)
+router.delete('/liked-students/:id', likedStudentCtrl.deleteLikedStudent)
+router.delete('/liked-freelancers/:id', likedFreelancersCtrl.deleteLikedFreelancer)
 
 
 
