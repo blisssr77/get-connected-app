@@ -478,6 +478,26 @@ function App() {
         console.error("Error liking freelancer:", error);
       }
     };
+    // Delete liked freelancer
+    const deleteLikedFreelancer = async (freelancerId) => {
+      try {
+        const response = await fetch(`${URL}liked-freelancers/${freelancerId}`, {
+          method: "DELETE",
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+          }
+        });
+
+        if (response.ok) {
+          console.log("Freelancer unliked successfully.");
+          getLikedFreelancers(); // Refresh the list of liked freelancers
+        } else {
+          console.log("Failed to unlike freelancer.");
+        }
+      } catch (error) {
+        console.error("Error unliking freelancer:", error);
+      }
+    };
     
 
     // Below is the code handles Student Comment----------------------------------------------------------------------------------------
