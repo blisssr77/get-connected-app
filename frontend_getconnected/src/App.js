@@ -2,19 +2,19 @@ import './App.css';
 import Login from './components/LoginSignup/Login';
 import Signup from './components/LoginSignup/Signup';
 import Homepage from './components/LoginSignup/Homepage';
-import Navbar from './components/Navbar/Navbar';
-import StudentForm from './components/Pages/StudentPages/StudentForm';
-import Students from './components/Pages/StudentPages/Students';
-import Freelancers from './components/Pages/FreelancerPages/Freelancers';
-import StudentDetail from './components/Pages/StudentPages/StudentDetail';
 import HelloUser from './components/LoginSignup/HelloUser';
+import Navbar from './components/Navbar/Navbar';
+import Students from './components/Pages/StudentPages/Students';
+import StudentForm from './components/Pages/StudentPages/StudentForm';
+import StudentDetail from './components/Pages/StudentPages/StudentDetail';
+import LikedStudents from './components/Pages/StudentPages/LikedStudents'
+import Freelancers from './components/Pages/FreelancerPages/Freelancers';
 import FreelancerForm from './components/Pages/FreelancerPages/FreelancerForm';
+import LikedFreelancers from './components/Pages/FreelancerPages/LikedFreelancers';
 import RoleSelection from './components/Pages/RoleProfilePages/RoleSelection';
 import RoleProfile from './components/Pages/RoleProfilePages/RoleProfile';
 import RoleProfileDetail from './components/Pages/RoleProfilePages/RoleProfileDetail';
-import LikedStudents from './components/Pages/StudentPages/LikedStudents'
-import LikedFreelancers from './components/Pages/FreelancerPages/LikedFreelancers';
-import {  Route, Routes, useNavigate, Navigate, useLocation } from 'react-router-dom';
+import {  Route, Routes, useNavigate } from 'react-router-dom';
 import { useEffect, useState, createContext } from 'react';
 
 export const AppContext = createContext(null);
@@ -387,6 +387,26 @@ function App() {
         console.error("Error liking student:", error);
       }
     };
+    // Delete liked student
+    const deleteLikedStudent = async (studentId) => {
+      try {
+        const response = await fetch(`${URL}liked-students/${studentId}`, {
+          method: "DELETE",
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+          }
+        });
+
+        if (response.ok) {
+          console.log("Student unliked successfully.");
+          getLikedStudents(); // Refresh the list of liked students
+        } else {
+          console.log("Failed to unlike student.");
+        }
+      } catch (error) {
+        console.error("Error unliking student:", error);
+      }
+    };
 
     // Below is the code handles Freelancer LIKE---------------------------------------------------------------------------------------
     const [likedFreelancers, setLikedFreelancers] = useState([]);
@@ -458,6 +478,7 @@ function App() {
         console.error("Error liking freelancer:", error);
       }
     };
+    
 
     // Below is the code handles Student Comment----------------------------------------------------------------------------------------
     const [comments, setComments] = useState([]);
