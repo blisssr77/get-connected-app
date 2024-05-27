@@ -633,14 +633,14 @@ function App() {
           <Route path='role-profile/:id' element={<RoleProfileDetail updateStudent={(student)=>updateStudent(student)} updateFreelancer={(freelancer)=>updateFreelancer(freelancer)}/>} />
 
           {/* Controls Login / Signup */}
-          <Route path="/login" element={<Login handleLogin={handleLogin} />} />
-          <Route path="/signup" element={<Signup handleSignUp={handleSignUp} />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
 
           {/* Controls Student */}
           <Route path='/student-form' element={<StudentForm createStudent={(student) => createStudent(student)} />} />
           <Route path="/students" element={<Students />} />
           <Route path="/students/:id" element={<StudentDetail />} />
-          <Route path= "/liked-students" element={<LikedStudents handleStudentLike={handleStudentLike} deleteLikedStudent={deleteLikedFreelancer}/>} />
+          <Route path= "/liked-students" element={<LikedStudents handleStudentLike={handleStudentLike} />} />
 
           {/* Controls Freelancer */}
           <Route path="/freelancers" element={<Freelancers />} />

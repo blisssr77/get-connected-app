@@ -1,17 +1,20 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
 import './LoginSignup.css';
 import user_icon from '../Assets/person.png';
 import password_icon from '../Assets/password.png';
 import email_icon from '../Assets/email.png';
+import { AppContext } from '../../App';
+
 
 const Signup = (props) => {
+    const { handleSignUp } = useContext(AppContext);
     const [form, setForm] = useState(null);
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        props.handleSignUp(form);
+        handleSignUp(form);
     };
 
     const handleChange = (e) => {
