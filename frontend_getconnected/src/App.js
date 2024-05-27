@@ -621,7 +621,7 @@ function App() {
       }}>
       
       <div className='bg-gray-100 w-full h-screen' style={{background:'linear-gradient(#C6F6D5, #000000)'}}>
-        <Navbar isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
+        <Navbar />
         <Routes >
 
           <Route path="/" element={<Homepage />} />
@@ -629,8 +629,8 @@ function App() {
 
           {/* Controls Role Profile */}
           <Route path='/role-selection' element={<RoleSelection/>} />
-          <Route path='/role-profile' element={<RoleProfile deleteStudent={(student)=>deleteStudent(student)} deleteFreelancer={(freelancer)=>deleteFreelancer(freelancer)}/>} />
-          <Route path='role-profile/:id' element={<RoleProfileDetail updateStudent={(student)=>updateStudent(student)} updateFreelancer={(freelancer)=>updateFreelancer(freelancer)}/>} />
+          <Route path='/role-profile' element={<RoleProfile />} />
+          <Route path='role-profile/:id' element={<RoleProfileDetail />} />
 
           {/* Controls Login / Signup */}
           <Route path="/login" element={<Login />} />
@@ -640,12 +640,12 @@ function App() {
           <Route path='/student-form' element={<StudentForm />} />
           <Route path="/students" element={<Students />} />
           <Route path="/students/:id" element={<StudentDetail />} />
-          <Route path= "/liked-students" element={<LikedStudents handleStudentLike={handleStudentLike} />} />
+          <Route path= "/liked-students" element={<LikedStudents />} />
 
           {/* Controls Freelancer */}
           <Route path="/freelancers" element={<Freelancers />} />
           <Route path='/freelancer-form' element={<FreelancerForm />} />
-          <Route path='/liked-freelancers' element={<LikedFreelancers handleFreelancerLike={handleFreelancerLike} deleteLikedFreelancer={deleteLikedFreelancer}/>} />
+          <Route path='/liked-freelancers' element={<LikedFreelancers />} />
         </Routes>
     </div>
   </AppContext.Provider>

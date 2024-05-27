@@ -1,8 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../Button/Button';
+import { AppContext } from '../../App';
 
-const Navbar = ({ isLoggedIn, handleLogout }) => {
+const Navbar = () => {
+    const { isLoggedIn, handleLogout } = useContext(AppContext);
     let Links = [
         {name:"HOME", link:"/"},
         {name:"LOGIN / SIGNUP", link:"/login"},
