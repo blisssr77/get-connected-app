@@ -19,4 +19,5 @@ module.exports = {
     Freelancer: require("./Freelancer"),
     Student: require("./Student"),
     LikedStudent: require("./LikedStudent"),
+    LikedFreelancer: require("./LikedFreelancer"),
 }

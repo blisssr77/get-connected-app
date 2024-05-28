@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { AppContext } from '../../../App';
 
 const Students = (props) => {
-    const { students, handleStudentLike } = useContext(AppContext);
+    const { students, handleStudentLike, deleteLikedStudent } = useContext(AppContext);
     const [search, setSearch] = useState('');
     const [liked, setLiked] = useState(() => {
         // Get liked students from local storage
@@ -27,11 +27,19 @@ const Students = (props) => {
     });
 
     const handleLikeClick = async (studentId) => {
-        await handleStudentLike(studentId);
+        if (liked[studentId]) {
+            await handleRemoveLike(studentId);
+        } else {
+            await handleStudentLike(studentId);
+        }
         setLiked(prevLiked => ({
             ...prevLiked,
             [studentId]: !prevLiked[studentId]
         }));
+    };
+
+    const handleRemoveLike = async (studentId) => {
+        await deleteLikedStudent(studentId);
     };
 
     const loaded = () => {
