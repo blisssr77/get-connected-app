@@ -13,6 +13,17 @@ const getFreelancers = async (req, res) => {
     }
 };
 
+const getFreelancersByUser = async (req, res) => {
+    const userId = req.user.id;
+
+    try {
+        const freelancers = await db.Freelancer.find({ User: userId });
+        res.status(200).json({ data: freelancers });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
 // Create a new Freelancer
 const createFreelancer = async (req, res) => {
     try {
@@ -69,5 +80,6 @@ module.exports = {
     getFreelancers,
     createFreelancer,
     updateFreelancer,
-    deleteFreelancer
+    deleteFreelancer,
+    getFreelancersByUser,
 };

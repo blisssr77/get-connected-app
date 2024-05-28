@@ -110,22 +110,6 @@ function App() {
           } else {
               console.log("Failed to fetch students.");
           }
-  
-          // Fetch role profiles
-          const roleProfileResponse = await fetch(`${URL}role-profile`, {
-              headers: {
-                  "Authorization": `Bearer ${localStorage.getItem("authToken")}`
-              }
-          });
-  
-          const roleProfileData = await roleProfileResponse.json();
-  
-          if (roleProfileResponse.ok) {
-              console.log("Student Role profiles fetched successfully.");
-              // console.log(roleProfileData.data);
-          } else {
-              console.log("Failed to fetch role profiles.");
-          }
       } catch (error) {
           console.error("Error fetching students or role profiles:", error);
       }
@@ -200,6 +184,34 @@ function App() {
         });
         getStudent();
     }
+
+    // Get Student and Freelancer By User
+    const getRoleProfileData = async () => {
+      try {
+          if (!isLoggedIn) {
+              console.log("User is not logged in. Cannot fetch role profile data.");
+              return;
+          }
+  
+          const response = await fetch(`${URL}role-profile`, {
+              headers: {
+                  "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+              }
+          });
+  
+          const data = await response.json();
+  
+          if (response.ok) {
+              setStudents(data.students);
+              setFreelancers(data.freelancers);
+              console.log("Role profile data fetched successfully.");
+          } else {
+              console.log("Failed to fetch role profile data.");
+          }
+      } catch (error) {
+          console.error("Error fetching role profile data:", error);
+      }
+  };
     
     // Below is the code handles freelancer state--------------------------------------------------------------------------
     const [freelancers, setFreelancers] = useState(null);
@@ -225,22 +237,6 @@ function App() {
               console.log(data.data);
           } else {
               console.log("Failed to fetch freelancers.");
-          }
-
-          // Fetch role profiles
-          const roleProfileResponse = await fetch(`${URL}role-profile`, {
-              headers: {
-                  "Authorization": `Bearer ${localStorage.getItem("authToken")}`
-              }
-          });
-
-          const roleProfileData = await roleProfileResponse.json();
-
-          if (roleProfileResponse.ok) {
-              console.log("Freelancer Role profiles fetched successfully.");
-              // console.log(roleProfileData.data);
-          } else {
-              console.log("Failed to fetch role profiles.");
           }
       } catch (error) {
           console.error("Error fetching freelancers or role profiles:", error);
@@ -616,7 +612,7 @@ function App() {
     <AppContext.Provider value={{ 
       getStudent, getFreelancer, createStudent, createFreelancer, updateStudent, updateFreelancer, deleteStudent, deleteFreelancer, 
       handleStudentLike, getLikedStudents, handleFreelancerLike, getLikedFreelancers, deleteLikedStudent, deleteLikedFreelancer,
-      students, freelancers, likedStudents, likedFreelancers, 
+      students, freelancers, likedStudents, likedFreelancers, getRoleProfileData,
       isLoggedIn, handleLogin, handleSignUp, handleLogout, fetchUser 
       }}>
       

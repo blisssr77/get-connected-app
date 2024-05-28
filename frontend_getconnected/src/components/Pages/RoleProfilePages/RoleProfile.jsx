@@ -3,9 +3,16 @@ import { Link } from 'react-router-dom';
 import { AppContext } from '../../../App';
 
 const RoleProfile = () => {
-    const { students, freelancers } = useContext(AppContext);
+    const { students, freelancers, getRoleProfileData } = useContext(AppContext);
     const [filteredStudents, setFilteredStudents] = useState([]);
     const [filteredFreelancers, setFilteredFreelancers] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await getRoleProfileData();
+        };
+        fetchData();
+    }, []);
 
     useEffect(() => {
         if (students) {
@@ -42,7 +49,6 @@ const RoleProfile = () => {
                             <Link to={`/role-profile/${student._id}`}>
                                 <button className="bg-blue-400 text-white font-semibold px-4 py-2 rounded-md hover:bg-blue-500" style={{fontSize:"13px"}}>Update Student Profile</button>
                             </Link>
-                            
                         </div>
                     </div>
                 ))}
@@ -76,9 +82,8 @@ const RoleProfile = () => {
                         </div>
                         <div className="mt-4">
                             <Link to={`/role-profile/${freelancer._id}`}>
-                                <button className=" text-white px-4 py-2 rounded-md font-semibold bg-orange-400 hover:bg-orange-500" style={{fontSize:"13px"}}>Update Freelancer Profile</button>
+                                <button className="text-white px-4 py-2 rounded-md font-semibold bg-orange-400 hover:bg-orange-500" style={{fontSize:"13px"}}>Update Freelancer Profile</button>
                             </Link>
-                            
                         </div>
                     </div>
                 ))}

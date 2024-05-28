@@ -1,3 +1,4 @@
+const { get } = require("mongoose");
 const db = require("../models");
 
 // Get Students for the current user
@@ -10,6 +11,18 @@ const getStudents = async (req, res) => {
         res.status(200).json({ data: students });
     } catch (err) {
         res.status(400).json({ error: err.message });
+    }
+};
+
+// Get Students for the current user
+const getStudentsByUser = async (req, res) => {
+    const userId = req.user.id;
+
+    try {
+        const students = await db.Student.find({ User: userId });
+        res.status(200).json({ data: students });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 };
 
@@ -67,5 +80,6 @@ module.exports = {
     getStudents,
     createStudent,
     updateStudent,
-    deleteStudent
+    deleteStudent,
+    getStudentsByUser,
 };
