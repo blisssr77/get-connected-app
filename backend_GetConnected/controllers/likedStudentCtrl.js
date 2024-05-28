@@ -8,7 +8,6 @@ const getLikedStudents = async (req, res) => {
     try {
       const likedStudents = await LikedStudent.find({ User: userId }).populate('studentId');
       res.status(200).json(likedStudents);
-      console.log(db.User, " <-- this is db.User FROM LIKEDSTUDENT")
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
