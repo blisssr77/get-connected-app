@@ -317,7 +317,7 @@ function App() {
         getFreelancer();
     }
 
-    // Below is the code handles LIKE----------------------------------------------------------------------------------------------
+    // Below is the code handles STUDENT LIKE----------------------------------------------------------------------------------------------
     const [likedStudents, setLikedStudents] = useState([]);
 
     const getLikedStudents = async () => {
@@ -615,7 +615,7 @@ function App() {
 
     <AppContext.Provider value={{ 
       getStudent, getFreelancer, createStudent, createFreelancer, updateStudent, updateFreelancer, deleteStudent, deleteFreelancer, 
-      handleStudentLike, getLikedStudents, handleFreelancerLike, getLikedFreelancers, deleteLikedStudent, deleteLikedStudent,
+      handleStudentLike, getLikedStudents, handleFreelancerLike, getLikedFreelancers, deleteLikedStudent, deleteLikedFreelancer,
       students, freelancers, likedStudents, likedFreelancers, 
       isLoggedIn, handleLogin, handleSignUp, handleLogout, fetchUser 
       }}>

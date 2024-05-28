@@ -41,10 +41,9 @@ const likeStudent = async (req, res) => {
 // Controller to delete a liked student
 const deleteLikedStudent = async (req, res) => {
   const { studentId } = req.params;
-  const userId = req.user.id;
 
   try {
-    const likedStudent = await LikedStudent.findOneAndDelete({ userId, studentId });
+    const likedStudent = await LikedStudent.findOneAndDelete({ studentId });
 
     if (!likedStudent) {
       return res.status(404).json({ message: 'Liked student not found' });

@@ -42,10 +42,9 @@ const likeFreelancer = async (req, res) => {
 // Controller to delete a liked freelancer
 const deleteLikedFreelancer = async (req, res) => {
   const { freelancerId } = req.params;
-  const userId = req.user.id;
 
   try {
-      const likedFreelancer = await LikedFreelancer.findOneAndDelete({ userId, freelancerId });
+      const likedFreelancer = await LikedFreelancer.findOneAndDelete({ freelancerId });
 
       if (!likedFreelancer) {
           return res.status(404).json({ message: 'Liked freelancer not found' });

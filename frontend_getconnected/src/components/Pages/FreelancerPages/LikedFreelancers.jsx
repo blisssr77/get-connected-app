@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { AppContext } from '../../../App';
 
 const LikedFreelancers = () => {
-    const { getLikedFreelancers, likedFreelancers } = useContext(AppContext);
+    const { getLikedFreelancers, likedFreelancers, deleteLikedFreelancer } = useContext(AppContext);
     const [search, setSearch] = useState('');
 
     useEffect(() => {
@@ -14,8 +14,12 @@ const LikedFreelancers = () => {
         setSearch(e.target.value);
     };
 
+    const handleRemoveLike = async (freelancerId) => {
+        await deleteLikedFreelancer(freelancerId);
+    };
+
     const filteredLikedFreelancers = likedFreelancers?.filter(({ freelancerId }) => {
-        return Object.values(freelancerId).some(value =>
+        return freelancerId && Object.values(freelancerId).some(value =>
             value != null && value.toString().toLowerCase().includes(search.toLowerCase())
         );
     });
@@ -48,6 +52,14 @@ const LikedFreelancers = () => {
                             <Link to={`/freelancers/${freelancerId._id}`}>
                                 <button className="bg-indigo-500 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-indigo-600">Leave Comments</button>
                             </Link>
+                        </div>
+                        <div className='flex'>
+                            <span 
+                                className="text-3xl ml-auto cursor-pointer"
+                                onClick={() => handleRemoveLike(freelancerId?._id)}
+                            >
+                                <ion-icon name="heart"></ion-icon>
+                            </span>
                         </div>
                     </div>
                 ))}

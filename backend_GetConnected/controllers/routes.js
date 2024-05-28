@@ -51,8 +51,8 @@ router.get('/liked-students', likedStudentCtrl.getLikedStudents)
 router.post('/liked-students', likedStudentCtrl.likeStudent)
 router.get('/liked-freelancers', likedFreelancersCtrl.getLikedFreelancers)
 router.post('/liked-freelancers', likedFreelancersCtrl.likeFreelancer)
-router.delete('/liked-students', likedStudentCtrl.deleteLikedStudent)
-router.delete('/liked-freelancers/:id', likedFreelancersCtrl.deleteLikedFreelancer)
+router.delete('/liked-students/:studentId', likedStudentCtrl.deleteLikedStudent)
+router.delete('/liked-freelancers/:freelancerId', likedFreelancersCtrl.deleteLikedFreelancer)
 
 
 
