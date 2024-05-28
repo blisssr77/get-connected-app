@@ -7,6 +7,7 @@ const getLikedFreelancers = async (req, res) => {
   
     try {
       const likedFreelancers = await LikedFreelancer.find().populate('freelancerId');
+      console.log(db.User, " <-- this is db.User FROM LIKEDFREELANCER")
       res.status(200).json(likedFreelancers);
     } catch (error) {
       res.status(500).json({ error: error.message });

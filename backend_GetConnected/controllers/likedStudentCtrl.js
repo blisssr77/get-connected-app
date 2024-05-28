@@ -6,8 +6,9 @@ const getLikedStudents = async (req, res) => {
     const userId = req.user.id;
   
     try {
-      const likedStudents = await LikedStudent.find().populate('studentId');
+      const likedStudents = await LikedStudent.find({ User: userId }).populate('studentId');
       res.status(200).json(likedStudents);
+      console.log(db.User, " <-- this is db.User FROM LIKEDSTUDENT")
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -21,12 +22,12 @@ const likeStudent = async (req, res) => {
       console.log(`User ${userId} is trying to like student ${studentId}`);
   
       // Check if the student is already liked by the user
-      const existingLike = await LikedStudent.findOne({ userId, studentId });
+      const existingLike = await LikedStudent.findOne({ User: userId, studentId });
       if (existingLike) {
         return res.status(400).json({ message: 'Student already liked' });
       }
 
-      const newLikedStudent = new LikedStudent({ studentId, userId });
+      const newLikedStudent = new LikedStudent({ studentId, User: userId });
       await newLikedStudent.save();
 
       // Populate the student details in the response

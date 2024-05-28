@@ -4,7 +4,6 @@ const db = require("../models");
 const getFreelancers = async (req, res) => {
     try {
         const freelancers = await db.Freelancer.find();
-        console.log(req.user.id, " <-- this is req.user.id FROM FREELANCER")
         if (!freelancers) {
             return res.status(404).json({ message: "Cannot find Freelancers" });
         }
