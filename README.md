@@ -18,6 +18,7 @@
 - React
 - Tailwind CSS
 - React Router
+- React Dom
 
 ### Backend
 
